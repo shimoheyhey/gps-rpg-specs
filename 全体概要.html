@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>GPS RPGゲーム 全体概要仕様書</title>
+<style>
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+th { background: #f0f0f0; }
+pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
+blockquote { border-left: 4px solid #ccc; margin: 1em 0; padding: 0.5em 1em; background: #f9f9f9; }
+</style>
+</head>
+<body>
+<h1>GPS RPGゲーム 全体概要仕様書</h1>
+
+<h2>1. ゲームコンセプト</h2>
+<blockquote>
+<p><strong>「歩けば冒険、行けなくても派遣。」</strong></p>
+</blockquote>
+<p>現実の移動と仮想の冒険をシームレスに繋ぐ、GPS連動型RPG。</p>
+<table>
+<tr><th>コアバリュー</th><th>説明</th></tr>
+<tr><td>ピクセルアートマップ変換</td><td>現実の日本を中世JRPG風ピクセルアートマップに変換。歩行・移動に連動してキャラクターが動く</td></tr>
+<tr><td>ハイブリッド設計</td><td>「リアル探索（プレイヤー自身が歩く）」と「遠隔探索（仲間派遣）」を融合。自分で歩く方が圧倒的に有利</td></tr>
+<tr><td>日常が冒険へ転化</td><td>通勤・通学・散歩がボス攻略の準備や宝探しに変わる。自宅からでも派遣管理で常時プレイ可能</td></tr>
+</table>
+
+<h2>2. ゲーム体験サイクル（6段階）</h2>
+<pre>
+01. WALK（歩行・移動）
+    ↓
+02. DISCOVER（発見・収集）
+    ↓
+03. EXPLORE（探索・調査）
+    ↓
+04. UNLOCK（解放・挑戦準備）
+    ↓
+05. BOSS BATTLE（ボス戦・制圧）
+    ↓
+06. DISPATCH &amp; RESCUE（派遣・救助）← 移動できない時間に並行稼働
+</pre>
+<table>
+<tr><th>フェーズ</th><th>内容</th></tr>
+<tr><td>01. WALK</td><td>プレイヤー自身が移動するか、仲間を派遣して目的地を目指す</td></tr>
+<tr><td>02. DISCOVER</td><td>地図上の精霊の祠で経験値を得たり、宝箱を回収する</td></tr>
+<tr><td>03. EXPLORE</td><td>詳細マップエリアに侵入し、密度の高い探索を行う</td></tr>
+<tr><td>04. UNLOCK</td><td>商店で情報収集・中ボス討伐を経て、大ボスへの挑戦条件を満たす</td></tr>
+<tr><td>05. BOSS BATTLE</td><td>駅に到着し、解放された大ボスに挑戦する。事前準備が勝敗を左右する</td></tr>
+<tr><td>06. DISPATCH &amp; RESCUE</td><td>移動できない時間は仲間を派遣。死亡した仲間のお墓へ回収に向かう</td></tr>
+</table>
+
+<h2>3. リアル探索 vs 遠隔探索（派遣）の比較</h2>
+<table>
+<tr><th>項目</th><th>リアル探索（プレイヤー）</th><th>遠隔探索（仲間派遣）</th></tr>
+<tr><td>スタミナ</td><td>無制限（リアルな体力のみ）</td><td>各仲間固有のスタミナ値で最大移動距離が決まる</td></tr>
+<tr><td>デスペナルティ</td><td>なし（その場で即復活）</td><td>あり（敗北地点でお墓化・回収まで再利用不可）</td></tr>
+<tr><td>移動手段</td><td>徒歩・電車・バス・車など</td><td>徒歩移動のみ（実時間がかかる）</td></tr>
+<tr><td>詳細マップ</td><td>侵入可能</td><td>侵入不可（広域マップのみ）</td></tr>
+<tr><td>設計意図</td><td>日常移動への強い動機付け</td><td>常時プレイ性の担保・戦略的な遠隔プレイ</td></tr>
+</table>
+
+<h2>4. マップシステム</h2>
+
+<h3>4.1 オーバーワールド（広域マップ）</h3>
+<ul>
+<li><strong>表示範囲：</strong>スマートフォン1画面あたり <strong>3km × 1km</strong></li>
+<li><strong>内容：</strong>日本地図を中世JRPG風ドット絵タイルで再現したメインフィールド</li>
+<li><strong>侵入権限：</strong>プレイヤー（リアル探索）・仲間（遠隔派遣）ともに探索可能</li>
+<li><strong>イベント：</strong>移動中にランダムエンカウントでモンスターとのオートバトルが発生</li>
+</ul>
+
+<h3>4.2 詳細マップ（局所マップ）</h3>
+<ul>
+<li><strong>表示範囲：</strong>スマートフォン1画面あたり <strong>300m × 100m</strong></li>
+<li><strong>内容：</strong>駅・公園・遊園地などの主要エリアを拡大した細密マップ</li>
+<li><strong>侵入権限：</strong>プレイヤー（リアル探索）のみ。仲間派遣では入れない</li>
+<li><strong>イベント：</strong>回復オブジェクト・店舗・ボスイベント戦闘が発生</li>
+</ul>
+
+<h2>5. 敵の階層構造と配置</h2>
+<pre>
+[大ボス]  王都の城 / 大要塞（主要駅・県最大駅）
+    ↑ 解放条件クリアで挑戦可能
+[中ボス]  主要スポット（レアアイテム・大ボス鍵所持）
+    ↑
+[通常モンスター]  オーバーワールド全域（ランダム出現）
+</pre>
+
+<h3>大ボス解放条件（UNLOCK）</h3>
+<p>大ボスは駅到着だけでは戦えない。以下のいずれかを達成することで挑戦権を獲得する。</p>
+<table>
+<tr><th>条件タイプ</th><th>内容</th></tr>
+<tr><td>キーアイテム収集系</td><td>エリア内の特定アイテムを一定数集める</td></tr>
+<tr><td>中ボス討伐系</td><td>周辺スポットの中ボスを複数撃破する</td></tr>
+<tr><td>探索・訪問系</td><td>特定スポットを訪問して儀式を進行させる</td></tr>
+<tr><td>歩行・周回系</td><td>物理的な移動距離や滞在時間を満たす</td></tr>
+</table>
+
+<h2>6. スポットオブジェクト定義</h2>
+
+<h3>6.1 オーバーワールド配置</h3>
+<table>
+<tr><th>現実の施設</th><th>ゲーム内表現</th><th>機能</th></tr>
+<tr><td>主要駅・県最大駅</td><td>王都の城 / 大要塞</td><td>大ボスが鎮座。各エリアを支配する最重要拠点</td></tr>
+<tr><td>その他の駅</td><td>宿場町 / 砦</td><td>中継地点・回復拠点</td></tr>
+<tr><td>地下鉄入口</td><td>地下迷宮への入口</td><td>特殊ダンジョンへのアクセスポイント</td></tr>
+<tr><td>宗教施設</td><td>神殿</td><td>イベント（効果詳細未決定）</td></tr>
+<tr><td>公園・商業施設</td><td>魔の森 / 古代遺跡</td><td>詳細マップへ遷移する探索エリア</td></tr>
+<tr><td>銭湯</td><td>癒やしの泉</td><td>イベント（効果詳細未決定）</td></tr>
+<tr><td>ポスト等</td><td>精霊の祠</td><td>経験値ボーナス・アイテム獲得</td></tr>
+<tr><td>記念碑・碑</td><td>古代の碑文</td><td>イベント（効果詳細未決定）</td></tr>
+</table>
+
+<h3>6.2 詳細マップ配置</h3>
+<table>
+<tr><th>現実の施設</th><th>ゲーム内表現</th><th>機能</th></tr>
+<tr><td>ベンチ等</td><td>キノコ</td><td>小規模な体力回復ポイント</td></tr>
+<tr><td>店舗</td><td>商店 / 酒場</td><td>装備品の購入・情報収集</td></tr>
+<tr><td>アトラクション施設</td><td>ボス戦イベント</td><td>中ボス・大ボスとの戦闘</td></tr>
+</table>
+
+<h2>7. バトル・育成システム概要</h2>
+
+<h3>7.1 オートバトル</h3>
+<ul>
+<li>遭遇から決着まで完全自動進行</li>
+<li>歩行中・他の作業中でも快適にプレイ可能</li>
+<li>各武器・仲間に固有のスキルとリキャスト時間を設定。時間経過で自動発動</li>
+</ul>
+
+<h3>7.2 プレイヤーの戦略軸</h3>
+<table>
+<tr><th>戦略</th><th>特徴</th></tr>
+<tr><td>手数重視</td><td>短いリキャストで連続攻撃を狙う</td></tr>
+<tr><td>一撃重視</td><td>長いリキャストで大ダメージを狙う</td></tr>
+</table>
+
+<h3>7.3 装備構成</h3>
+<table>
+<tr><th>スロット</th><th>数</th><th>効果</th></tr>
+<tr><td>武器</td><td>×1</td><td>攻撃力・固有スキル</td></tr>
+<tr><td>防具</td><td>×1</td><td>防御力・各種耐性</td></tr>
+<tr><td>アクセサリー</td><td>×3</td><td>ステータス補正・特殊効果</td></tr>
+</table>
+
+<h2>8. 機能別仕様書リスト</h2>
+<table>
+<tr><th>No.</th><th>機能名</th><th>ファイル</th><th>状態</th></tr>
+<tr><td>00</td><td>MAP ENGINE</td><td>機能_00_MAP ENGINE.md</td><td>作成済み</td></tr>
+<tr><td>01</td><td>歩行・移動</td><td>機能_01_歩行・移動.md</td><td>作成済み</td></tr>
+<tr><td>02</td><td>発見・収集</td><td>機能_02_発見・収集.md</td><td>作成済み</td></tr>
+<tr><td>03</td><td>詳細マップ探索</td><td>機能_03_詳細マップ探索.md</td><td>作成済み</td></tr>
+<tr><td>04</td><td>派遣・救助</td><td>機能_04_派遣・救助.md</td><td>作成済み</td></tr>
+<tr><td>05</td><td>バトル</td><td>機能_05_バトル.md</td><td>作成済み</td></tr>
+<tr><td>ー</td><td>バトル演出</td><td>演出_バトル.md</td><td>作成済み</td></tr>
+<tr><td>ー</td><td>パラメータ設計</td><td>params_設計.md</td><td>作成済み</td></tr>
+<tr><td>04</td><td>UNLOCK（解放条件）</td><td>機能_04_UNLOCK.md</td><td><strong>未作成</strong></td></tr>
+<tr><td>ー</td><td>仲間・育成</td><td>機能_仲間育成.md</td><td><strong>未作成</strong></td></tr>
+<tr><td>ー</td><td>インベントリ</td><td>機能_インベントリ.md</td><td><strong>未作成</strong></td></tr>
+</table>
+
+<h2>9. 開発優先順位（次ステップ）</h2>
+<ol>
+<li><strong>プロトタイプ優先実装</strong>
+  <ul>
+    <li>オートバトル基盤</li>
+    <li>オーバーワールドでの移動・エンカウント</li>
+  </ul>
+</li>
+<li><strong>重点検証項目</strong>
+  <ul>
+    <li>大ボス解放条件（UNLOCK）の達成感・導線</li>
+    <li>リアル探索と仲間派遣のゲームバランス</li>
+  </ul>
+</li>
+</ol>
+
+<h2>10. 未解決の問題</h2>
+<ul>
+<li>UNLOCKシステムの詳細仕様（機能_04_UNLOCK.md 未作成）</li>
+<li>仲間の加入イベント・育成システムの詳細仕様</li>
+<li>インベントリ・アイテム管理の仕様</li>
+<li>課金設計（プレミアム通貨の用途・バランス）</li>
+</ul>
+
+</body>
+</html>

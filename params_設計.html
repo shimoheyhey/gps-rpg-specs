@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>全パラメータ設計仕様書</title>
+<style>
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+th { background: #f0f0f0; }
+pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
+</style>
+</head>
+<body>
+<h1>全パラメータ設計仕様書</h1>
+
+<h2>1. パラメータ一覧（Google Sheets）</h2>
+<p>各パラメータの定義・範囲・成長率はスプレッドシートを参照。</p>
+<table>
+<tr><th>シート名</th><th>内容</th></tr>
+<tr><td>キャラクターパラメータ</td><td>レベル・HP・各ステータス・成長率</td></tr>
+<tr><td>武器パラメータ</td><td>威力・命中・必殺・重さ・攻撃タイプ等</td></tr>
+<tr><td>アクセサリーパラメータ</td><td>必要装備レベル・ステータス倍率補正</td></tr>
+</table>
+
+<h2>2. 装備可否の判定ロジック</h2>
+<ul>
+<li><strong>判定式：</strong>プレイヤーの「装備レベル」 ≧ アイテムの「必要装備レベル」</li>
+<li><strong>レベルとの関係：</strong>プレイヤーの「レベル（1〜20）」は判定に一切使用されない。</li>
+<li><strong>補正の活用：</strong>アクセサリーの「装備レベル倍率補正」を用いることで、本来装備できない高レベル武具の装備が可能になる。</li>
+</ul>
+
+<h2>3. パラメータ設計上の注意点</h2>
+<table>
+<tr><th>項目</th><th>内容</th></tr>
+<tr><td>「技」の限定的役割</td><td>魔法攻撃の命中は「武器の命中率」のみを参照し、「技」は無関係。魔法職にとって技倍率アクセサリーが不要なパラメータになるリスクがある</td></tr>
+<tr><td>魔法回避の特異性</td><td>物理回避が「すばやさ・重さ」に依存するのに対し、魔法回避は「運」のみを参照する</td></tr>
+<tr><td>装備レベルの成長リスク</td><td>成長率（抽選）によっては、プレイヤーレベルが最大でも装備レベルが不足し、一部の武具が永久に装備できない可能性がある</td></tr>
+<tr><td>循環制限（ジレンマ）</td><td>装備レベルを上げるためのアクセサリー自体に「必要装備レベル」が設定されているため、装備の組み合わせに矛盾が生じる可能性がある</td></tr>
+</table>
+
+</body>
+</html>
