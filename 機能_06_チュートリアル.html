@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>機能_06_チュートリアル〜本編開始 実装フロー仕様書</title>
+<style>
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+th { background: #f0f0f0; }
+pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
+</style>
+</head>
+<body>
+<h1>機能_06_チュートリアル〜本編開始 実装フロー仕様書</h1>
+
+<h2>1. 概要</h2>
+<p>ゲーム導入部からメインループへの移行における「状態遷移および演出フロー」を定義する。既存のマップタイル表示とバトル基盤を前提に、GPS情報とゲーム内演出の整合性維持を目指す。</p>
+
+<h2>2. チュートリアル・プロローグ</h2>
+<p><strong>目的：</strong>現実移動と連動した基本サイクル（WALK、DISCOVER、BATTLE）の学習</p>
+<ul>
+<li><strong>初期パーティ構成：</strong>勇者（プレイヤー）＋仲間3人の4人固定編成。中盤レベル相当の演出用バフ状態</li>
+<li><strong>ナビゲーション設定：</strong>
+  <ul>
+    <li>スタート地点：アプリ初回起動時の現在地</li>
+    <li>ターゲット：OSMデータから抽出した最寄りの主要駅（王都の城/大要塞）</li>
+  </ul>
+</li>
+<li><strong>進行上の制約：</strong>ターゲット駅の至近距離にいる場合は歩行プロセスを省略し、即座にボスシンボルを生成</li>
+</ul>
+
+<h2>3. ボス戦と石化・飛散イベント</h2>
+<p><strong>目的：</strong>物語の転換点およびパーティ解散の実行</p>
+<ul>
+<li><strong>ボス戦トリガー：</strong>ターゲット駅座標到達時、オーバーワールド上にボスシンボルを動的生成</li>
+<li><strong>石化・飛散処理：</strong>
+  <ul>
+    <li>仲間3人：パーティから削除、DB上の状態を「石化」として日本全国へランダム再配置</li>
+    <li>プレイヤー：駅で「石化」状態フラグON、グラフィックをモノトーン化</li>
+  </ul>
+</li>
+<li><strong>座標のロック：</strong>石化演出開始から復活イベント終了まで、プレイヤー描画座標を駅に固定</li>
+<li><strong>演出：</strong>「2年間の空白」テキスト表示とブラックアウト</li>
+</ul>
+
+<h2>4. 本編開始準備（システムリセット）</h2>
+<p><strong>目的：</strong>本編開始に向けたデータの初期化</p>
+<ul>
+<li><strong>プレイヤー能力：</strong>レベル・スキルを初期状態（Lv.1）へリセット</li>
+<li><strong>ワールドデータの更新：</strong>全域エンカウントテーブルを「魔物支配下」設定に変更、各地に「古代の碑文」等を再配置</li>
+</ul>
+
+<h2>5. 復活イベント（駅での目覚め）</h2>
+<p><strong>目的：</strong>石化地点から現在地への接続演出</p>
+<ul>
+<li><strong>描画：</strong>暗転明けで石化座標（駅）のタイルと石化した勇者を表示</li>
+<li><strong>女性冒険家イベント：</strong>隣接座標に配置し、石化解除の薬使用アニメーションと会話を実行</li>
+<li><strong>状態：</strong>会話継続中は駅座標を維持、物理移動によるキャラ移動は行わない</li>
+</ul>
+
+<h2>6. 本編開始トリガーとGPS再同期</h2>
+<p><strong>目的：</strong>物理移動への同期開始と操作権の移譲</p>
+<ul>
+<li><strong>発生トリガー：</strong>女性冒険家との会話ダイアログすべて閉じた瞬間</li>
+<li><strong>GPS再同期演出（高速スクロール）：</strong>
+  <ul>
+    <li>最新のGPS座標を取得</li>
+    <li>カメラを駅座標から最新現在地座標まで高速パン</li>
+    <li>スクロール完了後、プレイヤー座標を現在地に正式同期</li>
+  </ul>
+</li>
+<li><strong>システム解放：</strong>勇者＋女性冒険家の2人パーティで開始、UIを全開放、メインサイクルをアクティブ化</li>
+</ul>
+
+<hr>
+
+<h2>実装上の注意点</h2>
+<ul>
+<li><strong>フラグ管理：</strong>is_petrifiedフラグでGPS位置情報イベントの「描画反映の可否」を厳密制御</li>
+<li><strong>スクロール最適化：</strong>遠距離移動時のマップタイル読み込みを最適化</li>
+<li><strong>駅のシンボル化：</strong>駅は詳細マップ化せず、オーバーワールド上の「王都の城」シンボルとして機能</li>
+</ul>
+
+</body>
+</html>
