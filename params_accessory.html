@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>アクセサリーパラメータ定義</title>
+<style>
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+th { background: #f0f0f0; }
+</style>
+</head>
+<body>
+<h1>アクセサリーパラメータ定義</h1>
+<p>アクセサリーごとに設定されるパラメータの定義。各ステータスへの倍率補正が主な効果。</p>
+
+<table>
+<tr><th>パラメータ名</th><th>範囲Min</th><th>範囲Max</th><th>型</th><th>対象ステータス</th><th>説明</th></tr>
+<tr><td>必要装備レベル</td><td>1</td><td>20</td><td>int</td><td>ー</td><td>プレイヤーの「装備レベル」と照合して装備可否を判定</td></tr>
+<tr><td>倍率補正</td><td>1.01</td><td>1.50</td><td>float</td><td>力</td><td>力への乗算補正</td></tr>
+<tr><td>倍率補正</td><td>1.01</td><td>1.50</td><td>float</td><td>技</td><td>技への乗算補正</td></tr>
+<tr><td>倍率補正</td><td>1.01</td><td>1.50</td><td>float</td><td>すばやさ</td><td>すばやさへの乗算補正</td></tr>
+<tr><td>倍率補正</td><td>1.01</td><td>1.50</td><td>float</td><td>装備レベル</td><td>装備レベルへの乗算補正</td></tr>
+<tr><td>倍率補正</td><td>1.01</td><td>1.50</td><td>float</td><td>守備力</td><td>守備力への乗算補正</td></tr>
+<tr><td>倍率補正</td><td>1.01</td><td>1.50</td><td>float</td><td>魔防</td><td>魔防への乗算補正</td></tr>
+<tr><td>倍率補正</td><td>1.01</td><td>1.50</td><td>float</td><td>運</td><td>運への乗算補正</td></tr>
+<tr><td>倍率補正</td><td>1.01</td><td>1.50</td><td>float</td><td>HP</td><td>HPへの乗算補正</td></tr>
+</table>
+</body>
+</html>

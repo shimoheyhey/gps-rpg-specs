@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>キャラクターパラメータ定義</title>
+<style>
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+th { background: #f0f0f0; }
+</style>
+</head>
+<body>
+<h1>キャラクターパラメータ定義</h1>
+<p>プレイヤー・仲間・敵キャラクター共通のステータス定義。</p>
+
+<table>
+<tr><th>パラメータ名</th><th>範囲Min</th><th>範囲Max</th><th>成長率対象</th><th>説明</th></tr>
+<tr><td>レベル</td><td>1</td><td>20</td><td>ー</td><td>EXP 100ごとに1上昇</td></tr>
+<tr><td>HP</td><td>5</td><td>40</td><td>○</td><td>キャラクターの耐久力</td></tr>
+<tr><td>力</td><td>1</td><td>20</td><td>○</td><td>物理攻撃力に直接影響</td></tr>
+<tr><td>技</td><td>1</td><td>20</td><td>○</td><td>物理命中率・必殺率の計算に使用</td></tr>
+<tr><td>すばやさ</td><td>1</td><td>20</td><td>○</td><td>攻速（リキャスト速度）・物理回避率に影響</td></tr>
+<tr><td>守備力</td><td>1</td><td>20</td><td>○</td><td>物理攻撃に対する減算防御値</td></tr>
+<tr><td>魔防</td><td>1</td><td>20</td><td>○</td><td>魔法攻撃に対する減算防御値</td></tr>
+<tr><td>運</td><td>1</td><td>20</td><td>○</td><td>必殺率・魔法回避率にのみ影響</td></tr>
+<tr><td>装備レベル</td><td>1</td><td>20</td><td>○</td><td>武具の装備可否を判定するための専用値</td></tr>
+<tr><td>成長率</td><td>0%</td><td>100%</td><td>ー</td><td>レベルアップ時に各ステータスが上昇する確率（ステータスごとに個別設定）</td></tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>武器パラメータ定義</title>
+<style>
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+th { background: #f0f0f0; }
+</style>
+</head>
+<body>
+<h1>武器パラメータ定義</h1>
+<p>武器ごとに設定されるパラメータの定義。</p>
+
+<table>
+<tr><th>パラメータ名</th><th>範囲Min</th><th>範囲Max</th><th>型</th><th>説明</th></tr>
+<tr><td>威力</td><td>1</td><td>20</td><td>int</td><td>物理・魔法・特攻の全ダメージ計算の基礎</td></tr>
+<tr><td>命中</td><td>0</td><td>100</td><td>int</td><td>命中判定の基礎値</td></tr>
+<tr><td>必殺</td><td>1</td><td>20</td><td>int</td><td>必殺（クリティカル）発生率に影響</td></tr>
+<tr><td>重さ</td><td>1</td><td>20</td><td>int</td><td>攻速と物理回避率を低下させるマイナス要因</td></tr>
+<tr><td>必要装備レベル</td><td>1</td><td>20</td><td>int</td><td>プレイヤーの「装備レベル」と照合して装備可否を判定</td></tr>
+<tr><td>特攻対象</td><td>ー</td><td>ー</td><td>enum（敵タイプ）</td><td>指定した敵タイプに対し威力を3倍として計算</td></tr>
+<tr><td>攻撃タイプ</td><td>ー</td><td>ー</td><td>enum</td><td>物理 / 魔法 / 回復 / バフ</td></tr>
+</table>
+</body>
+</html>
