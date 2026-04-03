@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>レイアウト：画面下部（バトルエリア）</title>
+<style>
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+th { background: #f0f0f0; }
+img { max-width: 100%; border: 1px solid #ccc; margin: 0.5em 0; display: block; }
+h3 { margin-top: 2em; }
+</style>
+</head>
+<body>
+<h1>レイアウト：画面下部（バトルエリア）</h1>
+<p>画面下部（1080×384px）のレイヤー構成と各素材の配置。詳細仕様は <a href="機能_05_バトル.html">機能_05_バトル</a> を参照。</p>
+
+<h2>全体レイアウト</h2>
+<img src="images/画面下部/画面下部_全体.png" alt="画面下部全体">
+
+<h2>レイヤー構成（下から順）</h2>
+<table>
+<tr><th>レイヤー</th><th>ファイル</th><th>サイズ</th><th>配置</th><th>内容・挙動</th></tr>
+<tr><td>1（最背面）</td><td>battle/background_grass.png</td><td>1080×386</td><td>ー</td><td>自然背景（木・空）。歩くとスクロール（速度0.1倍）</td></tr>
+<tr><td>2</td><td>ui/floor.png</td><td>1080×128</td><td>下詰め</td><td>ピクセルアート地面（草＋土）。歩きスピードでスクロール</td></tr>
+<tr><td>3</td><td>ui/textbox.png</td><td>1080×48</td><td>上詰め</td><td>テキスト表示用ウィンドウ（ベージュ枠）</td></tr>
+<tr><td>4（最前面）</td><td>ui/fotter.png</td><td>1080×96</td><td>下詰め</td><td>フッターボタン×7（マップ・キャンプ・武器・魔法・回復・インベントリ・その他）。現状仮</td></tr>
+</table>
+
+<h2>各レイヤー素材</h2>
+
+<h3>レイヤー1：background_grass（背景）</h3>
+<img src="images/画面下部/画面下部_background_grass.png" alt="background_grass">
+
+<h3>レイヤー2：floor（地面）</h3>
+<img src="images/画面下部/画面下部_floor.png" alt="floor">
+
+<h3>レイヤー3：textbox（テキストボックス）</h3>
+<img src="images/画面下部/画面下部_textbox.png" alt="textbox">
+
+<h3>レイヤー4：fotter（フッター）</h3>
+<img src="images/画面下部/画面下部_fotter.png" alt="fotter">
+
+</body>
+</html>
