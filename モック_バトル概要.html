@@ -9,11 +9,11 @@ table { border-collapse: collapse; width: 100%; margin: 1em 0; }
 th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
 th { background: #f0f0f0; }
 h2 { border-bottom: 2px solid #ddd; padding-bottom: 0.3em; margin-top: 2em; }
+code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
 </style>
 </head>
 <body>
 <h1>モック_バトル概要</h1>
-<p>出典: <a href="https://docs.google.com/spreadsheets/d/1Ul6FX6Iz_oQPj5gouglwQ_PiMSoorZqEob3cTLmq86U/edit?gid=741836225">Google スプレッドシート「バトル概要」モック概要シート</a></p>
 <p>関連: <a href="機能_05_バトル.html">機能_05_バトル</a> / <a href="演出_01_バトル.html">演出_01_バトル</a></p>
 
 <h2>プレイヤー</h2>
@@ -26,12 +26,13 @@ h2 { border-bottom: 2px solid #ddd; padding-bottom: 0.3em; margin-top: 2em; }
 
 <h2>敵パラメータ</h2>
 <table>
-<tr><th>敵名</th><th>HP</th><th>攻撃力</th><th>出現確率</th><th>画像パス</th></tr>
-<tr><td>スライム</td><td>5</td><td>1</td><td>25%</td><td>GPS\data\img\enemy</td></tr>
-<tr><td>マッシュルーム</td><td>6</td><td>1</td><td>25%</td><td>GPS\data\img\enemy</td></tr>
-<tr><td>カタツムリ</td><td>5</td><td>2</td><td>25%</td><td>GPS\data\img\enemy</td></tr>
-<tr><td>ボス</td><td>10</td><td>2</td><td>25%</td><td>GPS\data\img\enemy</td></tr>
+<tr><th>敵名</th><th>HP</th><th>攻撃力</th><th>出現確率</th><th>スプライト</th><th>エフェクト</th></tr>
+<tr><td>スライム</td><td>5</td><td>1</td><td>25%</td><td>field_501_00.png / field_501_01.png</td><td>basicShapes8_0</td></tr>
+<tr><td>キノコ</td><td>6</td><td>1</td><td>25%</td><td>forest_401_00.png / forest_401_01.png</td><td>basicShapes8_0</td></tr>
+<tr><td>カタツムリ</td><td>5</td><td>2</td><td>25%</td><td>jungle_201_00.png / jungle_201_01.png</td><td>basicShapes8_0</td></tr>
+<tr><td>ボス</td><td>10</td><td>2</td><td>25%</td><td>devil_711_00.png / devil_711_01.png</td><td>Explosion30</td></tr>
 </table>
+<p>スプライト格納パス：<code>GPS\data\img\enemy</code>（元パッケージ Textures Materials2D Characters に合わせたフォルダ構成）</p>
 
 <h2>アニメーション設定</h2>
 <table>
@@ -42,11 +43,11 @@ h2 { border-bottom: 2px solid #ddd; padding-bottom: 0.3em; margin-top: 2em; }
 
 <h2>エフェクト素材</h2>
 <table>
-<tr><th>用途</th><th>素材名</th></tr>
-<tr><td>エフェクトパック</td><td>Pixel Cartoon Effects 2d Pixelate Toon Sprite Sheet Effects</td></tr>
-<tr><td>通常ヒット</td><td>bakuhatsu_01.png</td></tr>
-<tr><td>ボスエフェクト</td><td>Explosion30</td></tr>
-<tr><td>その他敵エフェクト</td><td>basicShapes8_0</td></tr>
+<tr><th>用途</th><th>素材名</th><th>パス</th></tr>
+<tr><td>エフェクトパック</td><td>Pixel Cartoon Effects 2d Pixelate Toon Sprite Sheet Effects</td><td><code>GPS\package\Sprite Sheet\Textures Materials</code></td></tr>
+<tr><td>ヒットマズル</td><td>bakuhatsu_01.png</td><td><code>GPS\data\img\effect</code></td></tr>
+<tr><td>ボスエフェクト</td><td>Explosion30</td><td>上記エフェクトパック内</td></tr>
+<tr><td>その他敵エフェクト</td><td>basicShapes8_0</td><td>上記エフェクトパック内</td></tr>
 </table>
 
 </body>
