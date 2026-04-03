@@ -35,7 +35,7 @@ pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
 
 <h3>3.2. マップスケールと描画制御</h3>
 <ul>
-<li><strong>表示縮尺：</strong>スマホ1画面あたり 80m × 150m（8タイル × 15タイル、1タイル = 10m）</li>
+<li><strong>表示縮尺：</strong>スマホ1画面あたり 50m × 100m（5タイル × 10タイル、1タイル = 10m）</li>
 <li><strong>ポリゴン外の非表示：</strong>詳細マップの描画はポリゴン範囲内のみとし、範囲外には何も表示しない。</li>
 </ul>
 
@@ -57,7 +57,7 @@ pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
 <table>
 <tr><th>定数名</th><th>値</th><th>説明</th></tr>
 <tr><td>1タイル当たりの距離</td><td>10m</td><td>GPS座標とタイル座標の変換基準</td></tr>
-<tr><td>詳細マップ表示範囲</td><td>80m × 150m</td><td>8タイル × 15タイル × 10m</td></tr>
+<tr><td>詳細マップ表示範囲</td><td>50m × 100m</td><td>5タイル × 10タイル × 10m</td></tr>
 <tr><td>強制退出猶予時間</td><td>5秒</td><td>ポリゴン範囲外に出てから強制退出が発動するまでの猶予時間</td></tr>
 <tr><td>詳細マップ遷移最低面積</td><td>10,000㎡</td><td>この面積以上の park / theme_park / retail 等が遷移対象</td></tr>
 </table>
@@ -98,7 +98,7 @@ pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
 <h3>6.2. 詳細マップ画面</h3>
 <table>
 <tr><th>No.</th><th>パーツ名</th><th>種別</th><th>内容</th><th>処理</th></tr>
-<tr><td>1</td><td>詳細マップ</td><td>画像</td><td>ポリゴン範囲内の拡大描画（80m×150m）</td><td>GPS移動に連動</td></tr>
+<tr><td>1</td><td>詳細マップ</td><td>画像</td><td>ポリゴン範囲内の拡大描画（50m×100m）</td><td>GPS移動に連動</td></tr>
 <tr><td>2</td><td>退出ポップアップ</td><td>ポップアップ</td><td>「〇〇から出る」常時表示（画面上部）</td><td>タップでオーバーワールドへ遷移</td></tr>
 <tr><td>3</td><td>Backキー押下</td><td>ー</td><td>Android Backキー操作</td><td>退出ポップアップと同等</td></tr>
 </table>
