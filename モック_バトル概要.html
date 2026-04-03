@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>モック_バトル概要</title>
+<style>
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+th { background: #f0f0f0; }
+h2 { border-bottom: 2px solid #ddd; padding-bottom: 0.3em; margin-top: 2em; }
+</style>
+</head>
+<body>
+<h1>モック_バトル概要</h1>
+<p>出典: <a href="https://docs.google.com/spreadsheets/d/1Ul6FX6Iz_oQPj5gouglwQ_PiMSoorZqEob3cTLmq86U/edit?gid=741836225">Google スプレッドシート「バトル概要」モック概要シート</a></p>
+<p>関連: <a href="機能_05_バトル.html">機能_05_バトル</a> / <a href="演出_01_バトル.html">演出_01_バトル</a></p>
+
+<h2>プレイヤー</h2>
+<table>
+<tr><th>項目</th><th>値</th></tr>
+<tr><td>HP</td><td>20</td></tr>
+<tr><td>攻撃力</td><td>2</td></tr>
+<tr><td>バトル間HP回復</td><td>全回復</td></tr>
+</table>
+
+<h2>敵パラメータ</h2>
+<table>
+<tr><th>敵名</th><th>HP</th><th>攻撃力</th><th>出現確率</th><th>画像パス</th></tr>
+<tr><td>スライム</td><td>5</td><td>1</td><td>25%</td><td>GPS\data\img\enemy</td></tr>
+<tr><td>マッシュルーム</td><td>6</td><td>1</td><td>25%</td><td>GPS\data\img\enemy</td></tr>
+<tr><td>カタツムリ</td><td>5</td><td>2</td><td>25%</td><td>GPS\data\img\enemy</td></tr>
+<tr><td>ボス</td><td>10</td><td>2</td><td>25%</td><td>GPS\data\img\enemy</td></tr>
+</table>
+
+<h2>アニメーション設定</h2>
+<table>
+<tr><th>状態</th><th>フレーム間隔</th><th>適用シーン</th></tr>
+<tr><td>アイドル</td><td>0.5秒</td><td>エンカウント後の移動中・順番待ち</td></tr>
+<tr><td>バトル</td><td>0.2秒</td><td>戦闘中</td></tr>
+</table>
+
+<h2>エフェクト素材</h2>
+<table>
+<tr><th>用途</th><th>素材名</th></tr>
+<tr><td>エフェクトパック</td><td>Pixel Cartoon Effects 2d Pixelate Toon Sprite Sheet Effects</td></tr>
+<tr><td>通常ヒット</td><td>bakuhatsu_01.png</td></tr>
+<tr><td>ボスエフェクト</td><td>Explosion30</td></tr>
+<tr><td>その他敵エフェクト</td><td>basicShapes8_0</td></tr>
+</table>
+
+</body>
+</html>
