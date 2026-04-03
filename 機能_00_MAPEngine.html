@@ -56,6 +56,15 @@ pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
 
 <h2>4. マスターデータ定義</h2>
 
+<h3>4.0. マップスケール定義（マスターデータ）</h3>
+<table>
+<tr><th>パラメータ</th><th>値</th><th>備考</th></tr>
+<tr><td>1タイル当たりの距離（オーバーワールド）</td><td>30m</td><td>GPS座標とタイル座標の変換基準</td></tr>
+<tr><td>画面表示タイル数（横）</td><td>8タイル</td><td>240m分</td></tr>
+<tr><td>画面表示タイル数（縦）</td><td>15タイル</td><td>450m分</td></tr>
+<tr><td>画面表示範囲</td><td>240m × 450m</td><td>8タイル × 15タイル × 30m</td></tr>
+</table>
+
 <h3>4.1. 判定ロジック定義テーブル（マスターデータ）</h3>
 <p>スポットの詳細マップ属性に応じて、配置・判定方式が変わる。</p>
 <table>
