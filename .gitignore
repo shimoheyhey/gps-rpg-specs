@@ -1,5 +1,3 @@
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.webp
+# UI素材はspecs/UI/で管理（このフォルダ外なので自動的に除外）
+# 生成テスト画像
+test_*.png
