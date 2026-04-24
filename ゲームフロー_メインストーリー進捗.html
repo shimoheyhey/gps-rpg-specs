@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ゲームフロー_メインストーリー進捗</title>
+<style>
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; padding: 0 1em; }
+h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; }
+h2 { border-left: 4px solid #666; padding-left: 0.6em; margin-top: 1.8em; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+th { background: #f0f0f0; }
+pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
+code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+pre code { background: transparent; padding: 0; }
+img { max-width: 100%; border: 1px solid #ccc; margin: 0.5em 0; }
+a { text-decoration: none; color: #1a6eb5; }
+a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<h1>ゲームフロー_メインストーリー進捗設計</h1>
+<h2>1. 設計思想</h2>
+<p>メインストーリーの進捗は「フィボナッチ係数」を用いたペーシング設計とする。</p>
+<ul>
+<li>フィボナッチ数列（1, 1, 2, 3, 5, 8, 13, 21, 34, 55…）を、ストーリーイベントの解放閾値として使用する。</li>
+<li>序盤は小さい値のため、わずかなクエスト達成で次のイベントに到達しやすく、<strong>早期の成長感・達成感</strong>を生み出す。</li>
+<li>中盤以降は閾値が広がっていくため、<strong>長期的なやり込み感・重み</strong>が自然に増す。</li>
+</ul>
+<h2>2. 基本構造</h2>
+<h3>苦労度（クエスト達成重み）</h3>
+<p>クエストごとに「苦労度」という重みが設定されており、クリアするたびに<strong>累積苦労度</strong>が加算される。</p>
+<table>
+<thead>
+<tr>
+<th>用語</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>苦労度</td>
+<td>各クエストに設定された固定の重み値</td>
+</tr>
+<tr>
+<td>累積苦労度</td>
+<td>プレイヤーがこれまでに達成したクエストの苦労度の合計</td>
+</tr>
+<tr>
+<td>ストーリー解放閾値</td>
+<td>各ストーリーイベントが解放されるために必要な累積苦労度。フィボナッチ数列を使用</td>
+</tr>
+</tbody>
+</table>
+<h3>ストーリー進捗リスト（概念モデル）</h3>
+<p>累積苦労度がフィボナッチの閾値に達するたびに、次のストーリーイベントが解放される。</p>
+<table>
+<thead>
+<tr>
+<th>ストーリーイベント（例）</th>
+<th>解放閾値（累積苦労度）</th>
+<th>フィボナッチ項</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>仲間Aの手がかり発見</td>
+<td>3</td>
+<td>F(4)</td>
+</tr>
+<tr>
+<td>仲間Aの居場所確定</td>
+<td>5</td>
+<td>F(5)</td>
+</tr>
+<tr>
+<td>仲間A救出クエスト解放</td>
+<td>8</td>
+<td>F(6)</td>
+</tr>
+<tr>
+<td>仲間Bの手がかり発見</td>
+<td>13</td>
+<td>F(7)</td>
+</tr>
+<tr>
+<td>仲間Bの居場所確定</td>
+<td>21</td>
+<td>F(8)</td>
+</tr>
+<tr>
+<td>仲間B救出クエスト解放</td>
+<td>34</td>
+<td>F(9)</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>※ 上記の閾値・イベント内容はあくまで概念モデル。実際の値は苦労度の設定方法が確定してから調整する。</p>
+</blockquote>
+<h2>3. 未解決・研究中</h2>
+<ul>
+<li><strong>苦労度の設定方法：</strong> クエスト種別で一律に決めるか、個別設計するか未定。実際のプレイテストを経て研究・調整が必要。</li>
+<li><strong>フィボナッチのスケール：</strong> 苦労度の単位をどのスケールに設定するか（小さな整数か、大きな値か）によって全体バランスが変わる。</li>
+<li><strong>死亡・失敗の扱い：</strong> 苦労度はクエスト達成時のみ加算。死亡・失敗は累積苦労度に影響しない。</li>
+<li><strong>アチーブメントとの分離：</strong> 歩行距離・スポット訪問数など行動量系のリワードは別途アチーブメントシステムで管理し、苦労度とは独立させる。</li>
+</ul>
+<h2>4. 関連仕様</h2>
+<ul>
+<li><a href="ゲームフロー_02_ストーリークエスト.html">ゲームフロー_02_ストーリークエスト.md</a></li>
+<li>機能_アチーブメント.md（未作成）</li>
+</ul>
+</body>
+</html>

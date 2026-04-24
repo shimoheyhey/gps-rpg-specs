@@ -4,126 +4,266 @@
 <meta charset="UTF-8">
 <title>画面遷移図</title>
 <style>
-body { font-family: sans-serif; max-width: 960px; margin: 2em auto; line-height: 1.7; }
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; padding: 0 1em; }
+h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; }
+h2 { border-left: 4px solid #666; padding-left: 0.6em; margin-top: 1.8em; }
 table { border-collapse: collapse; width: 100%; margin: 1em 0; }
 th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
 th { background: #f0f0f0; }
-h2 { border-bottom: 2px solid #ddd; padding-bottom: 0.3em; margin-top: 2em; }
-h3 { margin-top: 1.5em; }
-.mermaid { background: #fafafa; border: 1px solid #ddd; border-radius: 6px; padding: 1em; margin: 1em 0; }
-.note { background: #fff8e1; border-left: 4px solid #ffc107; padding: 0.5em 1em; margin: 1em 0; font-size: 0.9em; }
-.badge-done { color: #2e7d32; font-weight: bold; }
-.badge-todo { color: #c62828; font-weight: bold; }
+pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
+code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+pre code { background: transparent; padding: 0; }
+img { max-width: 100%; border: 1px solid #ccc; margin: 0.5em 0; }
+a { text-decoration: none; color: #1a6eb5; }
+a:hover { text-decoration: underline; }
 </style>
-<script type="module">
-import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-mermaid.initialize({ startOnLoad: true, theme: 'default' });
-</script>
 </head>
 <body>
 <h1>画面遷移図</h1>
-
 <h2>1. 全体遷移図</h2>
-
-<div class="mermaid">
-flowchart TD
-    A([アプリ起動]) --> B[ロード画面]
-    B --> C[チュートリアル\nプロローグボス戦]
-    C --> D[石化演出\n2年間の空白]
-    D --> E[復活イベント\n女性冒険家との会話]
-    E --> F[GPS再同期\nカメラパン]
-    F --> G
+<pre><code class="language-mermaid">flowchart TD
+    A([アプリ起動]) --&gt; B[ロード画面]
+    B --&gt; C[チュートリアル\nプロローグボス戦]
+    C --&gt; D[石化演出\n2年間の空白]
+    D --&gt; E[復活イベント\n女性冒険家との会話]
+    E --&gt; F[GPS再同期\nカメラパン]
+    F --&gt; G
 
     G[オーバーワールド\nメイン画面]
 
-    G <-->|エリア侵入 / 退出| H[詳細マップ]
-    G -->|メニューボタン| I[メニュー\n武器・防具・インベントリ等]
-    G -->|派遣ボタン| J[派遣メニュー]
-    G -->|クエストボタン| K[クエストログ]
+    G &lt;--&gt;|エリア侵入 / 退出| H[詳細マップ]
+    G --&gt;|メニューボタン| I[メニュー\n武器・防具・インベントリ等]
+    G --&gt;|派遣ボタン| J[派遣メニュー]
+    G --&gt;|クエストボタン| K[クエストログ]
 
-    J --> J2[派遣確認ダイアログ]
-    J2 -->|派遣実行| G
-    J2 -->|キャンセル| J
+    J --&gt; J2[派遣確認ダイアログ]
+    J2 --&gt;|派遣実行| G
+    J2 --&gt;|キャンセル| J
 
-    H --> L[ボス戦\n中ボス・大ボス]
-    L -->|大ボス撃破| M[救出イベント\nカットシーン]
-    M --> G
+    H --&gt; L[ボス戦\n中ボス・大ボス]
+    L --&gt;|大ボス撃破| M[救出イベント\nカットシーン]
+    M --&gt; G
 
-    G -.->|バトルエリアは常時表示| N[バトルエリア\n画面下部]
+    G -.-&gt;|バトルエリアは常時表示| N[バトルエリア\n画面下部]
 
-    M -->|3人全員救出| O([エンディング])
+    M --&gt;|3人全員救出| O([エンディング])
 
     style G fill:#ffe0b2,stroke:#f57c00
     style N fill:#e3f2fd,stroke:#1565c0
     style O fill:#e8f5e9,stroke:#2e7d32
-</div>
-
-<div class="note">バトルエリア（画面下部）はオーバーワールド・詳細マップに常時オーバーレイ表示される。</div>
-
+</code></pre>
+<blockquote>
+<p>バトルエリア（画面下部）はオーバーワールド・詳細マップに常時オーバーレイ表示される。</p>
+</blockquote>
+<hr>
 <h2>2. 画面一覧</h2>
-
 <h3>起動・チュートリアル</h3>
 <table>
-<tr><th>画面名</th><th>説明</th><th>状態</th></tr>
-<tr><td>ロード画面</td><td>アプリ初回起動時のローディング</td><td><span class="badge-todo">未設計</span></td></tr>
-<tr><td>チュートリアル：プロローグボス戦</td><td>最寄り主要駅でのボス戦</td><td><span class="badge-done"><a href="ゲームフロー_01_チュートリアル.html">ゲームフロー_01</a></span></td></tr>
-<tr><td>石化演出</td><td>「2年間の空白」テキスト・ブラックアウト</td><td><span class="badge-done"><a href="ゲームフロー_01_チュートリアル.html">ゲームフロー_01</a></span></td></tr>
-<tr><td>復活イベント</td><td>駅での目覚め・女性冒険家との会話</td><td><span class="badge-done"><a href="ゲームフロー_01_チュートリアル.html">ゲームフロー_01</a></span></td></tr>
-<tr><td>GPS再同期</td><td>駅座標から最新現在地への高速スクロール</td><td><span class="badge-done"><a href="ゲームフロー_01_チュートリアル.html">ゲームフロー_01</a></span></td></tr>
+<thead>
+<tr>
+<th>画面名</th>
+<th>説明</th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ロード画面</td>
+<td>アプリ初回起動時のローディング</td>
+<td>未設計</td>
+</tr>
+<tr>
+<td>チュートリアル：プロローグボス戦</td>
+<td>最寄り主要駅でのボス戦</td>
+<td><a href="ゲームフロー_01_チュートリアル.html">ゲームフロー_01_チュートリアル</a></td>
+</tr>
+<tr>
+<td>石化演出</td>
+<td>「2年間の空白」テキスト・ブラックアウト</td>
+<td><a href="ゲームフロー_01_チュートリアル.html">ゲームフロー_01_チュートリアル</a></td>
+</tr>
+<tr>
+<td>復活イベント</td>
+<td>駅での目覚め・女性冒険家との会話</td>
+<td><a href="ゲームフロー_01_チュートリアル.html">ゲームフロー_01_チュートリアル</a></td>
+</tr>
+<tr>
+<td>GPS再同期</td>
+<td>駅座標から最新現在地への高速スクロール</td>
+<td><a href="ゲームフロー_01_チュートリアル.html">ゲームフロー_01_チュートリアル</a></td>
+</tr>
+</tbody>
 </table>
-
 <h3>メインフィールド</h3>
 <table>
-<tr><th>画面名</th><th>説明</th><th>状態</th></tr>
-<tr><td>オーバーワールド</td><td>GPS連動のメインフィールド</td><td><span class="badge-done"><a href="機能_00_MAPEngine.html">機能_00</a></span></td></tr>
-<tr><td>安全警告ダイアログ</td><td>高速移動検知時（20km/h以上）に表示</td><td><span class="badge-done"><a href="機能_01_歩行・移動.html">機能_01</a></span></td></tr>
-<tr><td>テレポート補間通知</td><td>GPSロスト中の結果通知</td><td><span class="badge-done"><a href="機能_01_歩行・移動.html">機能_01</a></span></td></tr>
-<tr><td>アイテム取得ダイアログ</td><td>スポット接触時のアイテム獲得通知</td><td><span class="badge-done"><a href="機能_02_発見・収集.html">機能_02</a></span></td></tr>
+<thead>
+<tr>
+<th>画面名</th>
+<th>説明</th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>オーバーワールド</td>
+<td>GPS連動のメインフィールド</td>
+<td><a href="機能_00_MAP_ENGINE.html">機能_00_MAP ENGINE</a></td>
+</tr>
+<tr>
+<td>安全警告ダイアログ</td>
+<td>高速移動検知時（20km/h以上）に表示</td>
+<td><a href="機能_01_歩行・移動.html">機能_01_歩行・移動</a></td>
+</tr>
+<tr>
+<td>テレポート補間通知</td>
+<td>GPSロスト中の結果通知</td>
+<td><a href="機能_01_歩行・移動.html">機能_01_歩行・移動</a></td>
+</tr>
+<tr>
+<td>アイテム取得ダイアログ</td>
+<td>スポット接触時のアイテム獲得通知</td>
+<td><a href="機能_02_発見・収集.html">機能_02_発見・収集</a></td>
+</tr>
+</tbody>
 </table>
-
 <h3>詳細マップ</h3>
 <table>
-<tr><th>画面名</th><th>説明</th><th>状態</th></tr>
-<tr><td>詳細マップ</td><td>駅・公園などの拡大マップ（300m×100m）</td><td><span class="badge-done"><a href="機能_03_詳細マップ探索.html">機能_03</a></span></td></tr>
-<tr><td>詳細マップ進入ポップアップ</td><td>侵入エリア名の常時表示</td><td><span class="badge-done"><a href="機能_03_詳細マップ探索.html">機能_03</a></span></td></tr>
+<thead>
+<tr>
+<th>画面名</th>
+<th>説明</th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>詳細マップ</td>
+<td>駅・公園などの拡大マップ（300m×100m）</td>
+<td><a href="機能_03_詳細マップ探索.html">機能_03_詳細マップ探索</a></td>
+</tr>
+<tr>
+<td>詳細マップ進入ポップアップ</td>
+<td>侵入エリア名の常時表示</td>
+<td><a href="機能_03_詳細マップ探索.html">機能_03_詳細マップ探索</a></td>
+</tr>
+</tbody>
 </table>
-
 <h3>バトル</h3>
 <table>
-<tr><th>画面名</th><th>説明</th><th>状態</th></tr>
-<tr><td>バトルエリア（画面下部）</td><td>オートバトル常時表示エリア</td><td><span class="badge-done"><a href="機能_05_バトル.html">機能_05</a> / <a href="演出_01_バトル.html">演出_01</a></span></td></tr>
-<tr><td>ボス戦</td><td>大ボス・中ボスとの戦闘</td><td><span class="badge-done"><a href="機能_05_バトル.html">機能_05</a></span></td></tr>
+<thead>
+<tr>
+<th>画面名</th>
+<th>説明</th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>バトルエリア（画面下部）</td>
+<td>オートバトル常時表示エリア</td>
+<td><a href="機能_05_バトル.html">機能_05_バトル</a> / <a href="演出_01_バトル.html">演出_01_バトル</a></td>
+</tr>
+<tr>
+<td>ボス戦</td>
+<td>大ボス・中ボスとの戦闘</td>
+<td><a href="機能_05_バトル.html">機能_05_バトル</a></td>
+</tr>
+</tbody>
 </table>
-
 <h3>派遣・救助</h3>
 <table>
-<tr><th>画面名</th><th>説明</th><th>状態</th></tr>
-<tr><td>派遣メニュー</td><td>派遣先スポット・キャラクター選択</td><td><span class="badge-done"><a href="機能_04_派遣・救助.html">機能_04</a></span></td></tr>
-<tr><td>派遣確認ダイアログ</td><td>目的地・到達予想時間・スタミナ消費確認</td><td><span class="badge-done"><a href="機能_04_派遣・救助.html">機能_04</a></span></td></tr>
-<tr><td>お墓通知・救助ダイアログ</td><td>仲間のお墓化通知と救助オプション</td><td><span class="badge-done"><a href="機能_04_派遣・救助.html">機能_04</a></span></td></tr>
+<thead>
+<tr>
+<th>画面名</th>
+<th>説明</th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>派遣メニュー</td>
+<td>派遣先スポット・キャラクター選択</td>
+<td><a href="機能_04_派遣・救助.html">機能_04_派遣・救助</a></td>
+</tr>
+<tr>
+<td>派遣確認ダイアログ</td>
+<td>目的地・到達予想時間・スタミナ消費確認</td>
+<td><a href="機能_04_派遣・救助.html">機能_04_派遣・救助</a></td>
+</tr>
+<tr>
+<td>お墓通知・救助ダイアログ</td>
+<td>仲間のお墓化通知と救助オプション</td>
+<td><a href="機能_04_派遣・救助.html">機能_04_派遣・救助</a></td>
+</tr>
+</tbody>
 </table>
-
 <h3>ストーリー・クエスト</h3>
 <table>
-<tr><th>画面名</th><th>説明</th><th>状態</th></tr>
-<tr><td>クエストログ</td><td>仲間タブ・フェーズ・手がかり・UNLOCKゲージ</td><td><span class="badge-done"><a href="ゲームフロー_02_ストーリークエスト.html">ゲームフロー_02</a></span></td></tr>
-<tr><td>救出イベント（カットシーン）</td><td>石化解除アニメ・仲間加入</td><td><span class="badge-done"><a href="機能_06_仲間加入.html">機能_06</a></span></td></tr>
+<thead>
+<tr>
+<th>画面名</th>
+<th>説明</th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>クエストログ</td>
+<td>仲間タブ・フェーズ・手がかり・UNLOCKゲージ</td>
+<td><a href="ゲームフロー_02_ストーリークエスト.html">ゲームフロー_02_ストーリークエスト</a></td>
+</tr>
+<tr>
+<td>救出イベント（カットシーン）</td>
+<td>石化解除アニメ・仲間加入</td>
+<td><a href="機能_06_仲間加入.html">機能_06_仲間加入</a></td>
+</tr>
+</tbody>
 </table>
-
 <h3>仲間</h3>
 <table>
-<tr><th>画面名</th><th>説明</th><th>状態</th></tr>
-<tr><td>仲間発見ポップアップ</td><td>石化シンボル・フィールドキャラ発見時</td><td><span class="badge-done"><a href="機能_06_仲間加入.html">機能_06</a></span></td></tr>
-<tr><td>加入通知</td><td>「〇〇がパーティに加わった！」</td><td><span class="badge-done"><a href="機能_06_仲間加入.html">機能_06</a></span></td></tr>
+<thead>
+<tr>
+<th>画面名</th>
+<th>説明</th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>仲間発見ポップアップ</td>
+<td>石化シンボル・フィールドキャラ発見時</td>
+<td><a href="機能_06_仲間加入.html">機能_06_仲間加入</a></td>
+</tr>
+<tr>
+<td>加入通知</td>
+<td>「〇〇がパーティに加わった！」</td>
+<td><a href="機能_06_仲間加入.html">機能_06_仲間加入</a></td>
+</tr>
+</tbody>
 </table>
-
 <h3>メニュー・システム</h3>
 <table>
-<tr><th>画面名</th><th>説明</th><th>状態</th></tr>
-<tr><td>メニュー</td><td>武器・防具・インベントリ・その他</td><td><span class="badge-todo">未設計</span></td></tr>
-<tr><td>終了確認ダイアログ</td><td>Backキー押下時</td><td><span class="badge-todo">未設計</span></td></tr>
+<thead>
+<tr>
+<th>画面名</th>
+<th>説明</th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>メニュー</td>
+<td>武器・防具・インベントリ・その他</td>
+<td>未設計</td>
+</tr>
+<tr>
+<td>終了確認ダイアログ</td>
+<td>Backキー押下時</td>
+<td>未設計</td>
+</tr>
+</tbody>
 </table>
-
+<hr>
 <h2>3. 未解決の問題</h2>
 <ul>
 <li>メニュー画面の内部遷移（武器・装備・インベントリ等のサブ画面）が未設計</li>
@@ -131,6 +271,5 @@ flowchart TD
 <li>課金・ショップ画面が未定</li>
 <li>タイトル画面・設定画面が未定</li>
 </ul>
-
 </body>
 </html>

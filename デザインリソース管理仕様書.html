@@ -2,77 +2,115 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>デザインリソース管理仕様書：マルチID定義規定</title>
+<title>デザインリソース管理仕様書</title>
 <style>
-body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; }
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; padding: 0 1em; }
+h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; }
+h2 { border-left: 4px solid #666; padding-left: 0.6em; margin-top: 1.8em; }
 table { border-collapse: collapse; width: 100%; margin: 1em 0; }
 th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
 th { background: #f0f0f0; }
 pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
+code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+pre code { background: transparent; padding: 0; }
+img { max-width: 100%; border: 1px solid #ccc; margin: 0.5em 0; }
+a { text-decoration: none; color: #1a6eb5; }
+a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 <h1>デザインリソース管理仕様書：マルチID定義規定</h1>
-
 <h2>1. 概要</h2>
 <p>ゲーム内の画像リソースは「10桁の数値を用いたマルチID（XXX_YYY_ZZZZ）」で管理される。異なるコンテンツ間ではIDの重複が許容されており、各コンテンツごとに小分類を0001から自由にナンバリングできる。</p>
-
 <h2>2. IDフォーマット定義：XXX_YYY_ZZZZ</h2>
 <p>IDの意味は各コンテンツごとに個別定義される。</p>
 <ul>
-<li><strong>第1セクション（3桁）：</strong>大分類（コンテンツ内での大きな種類）<br>※特例：大分類255は全コンテンツ共通で「デバッグ・テスト用リソース」として予約</li>
-<li><strong>第2セクション（3桁）：</strong>中分類（属性や規模など）</li>
-<li><strong>第3セクション（4桁）：</strong>小分類（固有の連番、差分、バリエーション等）</li>
+<li><strong>第1セクション（3桁）：</strong> 大分類（コンテンツ内での大きな種類）</li>
+<li>※特例：大分類255は全コンテンツ共通で「デバッグ・テスト用リソース」として予約</li>
+<li><strong>第2セクション（3桁）：</strong> 中分類（属性や規模など）</li>
+<li><strong>第3セクション（4桁）：</strong> 小分類（固有の連番、差分、バリエーション等）</li>
 </ul>
-
 <h2>3. コンテンツ別のID定義</h2>
-
 <h3>【A】マップオブジェクト（スポットアイコン）</h3>
 <p><strong>大分類（マップ種別）：</strong></p>
 <table>
-<tr><th>値</th><th>意味</th></tr>
-<tr><td>001</td><td>オーバーワールド（広域マップ）用</td></tr>
-<tr><td>002</td><td>詳細マップ（局所マップ）用</td></tr>
-<tr><td>255</td><td>デバッグ用</td></tr>
+<thead>
+<tr>
+<th>値</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>001</td>
+<td>オーバーワールド（広域マップ）用</td>
+</tr>
+<tr>
+<td>002</td>
+<td>詳細マップ（局所マップ）用</td>
+</tr>
+<tr>
+<td>255</td>
+<td>デバッグ用</td>
+</tr>
+</tbody>
 </table>
-
 <p><strong>中分類（スポット種別）：</strong></p>
 <table>
-<tr><th>値</th><th>意味</th></tr>
-<tr><td>001</td><td>城</td></tr>
-<tr><td>002</td><td>建築物</td></tr>
-<tr><td>003</td><td>祠</td></tr>
-<tr><td>004</td><td>モニュメント</td></tr>
-<tr><td>005</td><td>宝箱</td></tr>
-<tr><td>006</td><td>複合シンボル</td></tr>
+<thead>
+<tr>
+<th>値</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>001</td>
+<td>城</td>
+</tr>
+<tr>
+<td>002</td>
+<td>建築物</td>
+</tr>
+<tr>
+<td>003</td>
+<td>祠</td>
+</tr>
+<tr>
+<td>004</td>
+<td>モニュメント</td>
+</tr>
+<tr>
+<td>005</td>
+<td>宝箱</td>
+</tr>
+<tr>
+<td>006</td>
+<td>複合シンボル</td>
+</tr>
+</tbody>
 </table>
-
 <h3>【B】装備品・アイテム</h3>
 <ul>
 <li>大分類：未定（※255はデバッグ用）</li>
 <li>中分類：未定</li>
 </ul>
-
 <h3>【C】キャラクター</h3>
 <ul>
 <li>大分類：未定（※255はデバッグ用）</li>
 <li>中分類：未定</li>
 </ul>
-
 <h3>【D】UI・システム</h3>
 <ul>
 <li>大分類：未定（※255はデバッグ用）</li>
 <li>中分類：未定</li>
 </ul>
-
 <h3>【E】エフェクト</h3>
 <ul>
 <li>大分類：未定（※255はデバッグ用）</li>
 <li>中分類：未定</li>
 </ul>
-
 <hr>
 <p>本仕様書は「採番ルール」を純粋に定義する形式であり、実際のID割り当てはデータベース側で管理される予定。</p>
-
 </body>
 </html>

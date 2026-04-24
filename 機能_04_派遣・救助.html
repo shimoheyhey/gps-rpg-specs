@@ -4,96 +4,183 @@
 <meta charset="UTF-8">
 <title>機能_04_派遣・救助</title>
 <style>
-body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; }
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; padding: 0 1em; }
+h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; }
+h2 { border-left: 4px solid #666; padding-left: 0.6em; margin-top: 1.8em; }
 table { border-collapse: collapse; width: 100%; margin: 1em 0; }
 th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
 th { background: #f0f0f0; }
 pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
+code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+pre code { background: transparent; padding: 0; }
+img { max-width: 100%; border: 1px solid #ccc; margin: 0.5em 0; }
+a { text-decoration: none; color: #1a6eb5; }
+a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 <h1>機能_04_派遣・救助</h1>
-
 <h2>1. シナリオ</h2>
 <ul>
-<li><strong>ターゲット：</strong>遠隔探索・非同期処理・時間計算担当エンジニア。</li>
-<li><strong>状況：</strong>プレイヤー自身が移動できない時間帯（自宅や職場など）に、アプリ内のメニューから仲間キャラクターを日本全国の特定のスポットへ向かわせる際。</li>
-<li><strong>使い方：</strong>仲間の固有スタミナに基づき最大移動距離を算出し、目的地到達までの実時間（待ち時間）の計算を行う。また、移動中のオートバトル、アイテム収集、および敗北時のお墓化（デスペナルティ）をバックグラウンドで処理する。</li>
+<li><strong>ターゲット：</strong> 遠隔探索・非同期処理・時間計算担当エンジニア。</li>
+<li><strong>状況：</strong> プレイヤー自身が移動できない時間帯（自宅や職場など）に、アプリ内のメニューから仲間キャラクターを日本全国の特定のスポットへ向かわせる際。</li>
+<li><strong>使い方：</strong> 仲間の固有スタミナに基づき最大移動距離を算出し、目的地到達までの実時間（待ち時間）の計算を行う。また、移動中のオートバトル、アイテム収集、および敗北時のお墓化（デスペナルティ）をバックグラウンドで処理する。</li>
 </ul>
-
 <h2>2. 概要</h2>
 <p>自分で歩く「リアル探索」を補完し、自宅等からの戦略的な遠隔プレイを可能にすることで、常時プレイ性を担保するためのシステム。詳細マップへの侵入はできない等の制限を設け「自分で歩く方が有利」なバランスを保ちつつも、広域マップ上でのオートバトルやアイテム収集などの稼働をバックグラウンドで進行させる。</p>
-
 <h2>3. 詳細仕様</h2>
-
 <h3>3.1. 派遣先の設定と距離計算</h3>
 <ul>
 <li>プレイヤーは広域マップ上から派遣先の座標（スポット）を指定する。</li>
 <li>派遣する仲間キャラクターが持つ「固有スタミナ値」により、最大移動距離が制限される。</li>
-<li><strong>【重要】</strong>スタミナ1あたりの移動可能距離、および派遣キャラの移動速度（1kmあたりの所要時間）は固定値とせず、マスターデータ等で設定・調整可能なパラメータとして実装する。</li>
+<li><strong>【重要】</strong> スタミナ1あたりの移動可能距離、および派遣キャラの移動速度（1kmあたりの所要時間）は固定値とせず、マスターデータ等で設定・調整可能なパラメータとして実装する。</li>
 </ul>
-
 <h3>3.2. 移動と時間経過（バックグラウンド進行）</h3>
 <ul>
 <li>派遣キャラは徒歩移動扱いとなり、設定された移動速度のパラメータに基づき、目的地到達までに実際の時間（待ち時間）を要する。</li>
 <li>移動ルート上の広域マップにおいて、ランダムエンカウントによるオートバトルが発生する。</li>
 </ul>
-
 <h3>3.3. スポットでのアイテム収集と即時獲得</h3>
 <ul>
 <li>移動中、派遣キャラが有効スポット半径内に進入した場合、インタラクションが実行される。</li>
 <li>獲得したアイテムや通貨は、即座にプレイヤーのインベントリへ追加される。</li>
 </ul>
-
 <h3>3.4. お墓化（デスペナルティ）と救助システム</h3>
 <ul>
 <li>派遣先でのオートバトル等で仲間が敗北した場合、その場（敗北した座標）で「お墓」となり進行不能となる。</li>
-<li>お墓化した仲間は、以下のいずれかの手段で回収（救助）するまで再利用不可となる。
-  <ul>
-    <li><strong>リアル救助：</strong>プレイヤー自身がGPS移動でお墓の座標まで直接赴き、救助する。</li>
-    <li><strong>課金救済システム：</strong>プレミアム通貨（課金アイテム）を消費することで、どこで倒れていても即座に遠隔で強制帰還（復活）させる。</li>
-  </ul>
-</li>
+<li>お墓化した仲間は、以下のいずれかの手段で回収（救助）するまで再利用不可となる。</li>
+<li><strong>リアル救助：</strong> プレイヤー自身がGPS移動でお墓の座標まで直接赴き、救助する。</li>
+<li><strong>課金救済システム：</strong> プレミアム通貨（課金アイテム）を消費することで、どこで倒れていても即座に遠隔で強制帰還（復活）させる。</li>
 </ul>
-
 <h2>4. マスターデータ定義</h2>
-
 <h3>4.1. 派遣システム定数（マスターデータ）</h3>
 <table>
-<tr><th>定数名</th><th>値</th><th>説明</th></tr>
-<tr><td>スタミナ1あたりの移動距離</td><td>未決定（km）</td><td>仲間が1スタミナで移動できる距離。マスターデータで調整可能</td></tr>
-<tr><td>派遣キャラ移動速度</td><td>未決定（分/km）</td><td>目的地到達までの実時間を算出するための速度定数。マスターデータで調整可能</td></tr>
+<thead>
+<tr>
+<th>定数名</th>
+<th>値</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>スタミナ1あたりの移動距離</td>
+<td>未決定（km）</td>
+<td>仲間が1スタミナで移動できる距離。マスターデータで調整可能</td>
+</tr>
+<tr>
+<td>派遣キャラ移動速度</td>
+<td>未決定（分/km）</td>
+<td>目的地到達までの実時間を算出するための速度定数。マスターデータで調整可能</td>
+</tr>
+</tbody>
 </table>
-
 <h3>4.2. 仲間定義テーブル（マスターデータ）</h3>
 <table>
-<tr><th>カラム項目</th><th>型</th><th>説明</th></tr>
-<tr><td>仲間ID</td><td>string</td><td>仲間キャラクターの識別子</td></tr>
-<tr><td>仲間名</td><td>string</td><td>表示名</td></tr>
-<tr><td>固有スタミナ値</td><td>int</td><td>1回の派遣で使用できる最大スタミナ。最大移動距離の上限を決定</td></tr>
-<tr><td>ステータス各種</td><td>1〜20</td><td><a href="params_設計.html">params_設計</a> 参照</td></tr>
+<thead>
+<tr>
+<th>カラム項目</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>仲間ID</td>
+<td>string</td>
+<td>仲間キャラクターの識別子</td>
+</tr>
+<tr>
+<td>仲間名</td>
+<td>string</td>
+<td>表示名</td>
+</tr>
+<tr>
+<td>固有スタミナ値</td>
+<td>int</td>
+<td>1回の派遣で使用できる最大スタミナ。最大移動距離の上限を決定</td>
+</tr>
+<tr>
+<td>ステータス各種</td>
+<td>1〜20</td>
+<td>全パラメータ設計仕様書.md 参照</td>
+</tr>
+</tbody>
 </table>
-
 <h3>4.3. 派遣状態テーブル（ユーザーデータ）</h3>
 <table>
-<tr><th>カラム項目</th><th>型</th><th>説明</th></tr>
-<tr><td>ユーザーID</td><td>string</td><td>プレイヤー識別子</td></tr>
-<tr><td>仲間ID</td><td>string</td><td>派遣中の仲間の識別子</td></tr>
-<tr><td>派遣中フラグ</td><td>bool</td><td>true=派遣中</td></tr>
-<tr><td>派遣先座標（緯度）</td><td>float</td><td>目的地の緯度</td></tr>
-<tr><td>派遣先座標（経度）</td><td>float</td><td>目的地の経度</td></tr>
-<tr><td>現在座標（緯度）</td><td>float</td><td>仲間の現在位置（リアルタイム更新）</td></tr>
-<tr><td>現在座標（経度）</td><td>float</td><td>同上</td></tr>
-<tr><td>残スタミナ</td><td>int</td><td>現在の残スタミナ値</td></tr>
-<tr><td>お墓フラグ</td><td>bool</td><td>true=敗北してお墓化中</td></tr>
-<tr><td>お墓座標（緯度）</td><td>float</td><td>敗北地点の緯度（お墓化時のみ有効）</td></tr>
-<tr><td>お墓座標（経度）</td><td>float</td><td>同上</td></tr>
-<tr><td>派遣開始日時</td><td>datetime</td><td>派遣を開始した日時</td></tr>
+<thead>
+<tr>
+<th>カラム項目</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユーザーID</td>
+<td>string</td>
+<td>プレイヤー識別子</td>
+</tr>
+<tr>
+<td>仲間ID</td>
+<td>string</td>
+<td>派遣中の仲間の識別子</td>
+</tr>
+<tr>
+<td>派遣中フラグ</td>
+<td>bool</td>
+<td>true=派遣中</td>
+</tr>
+<tr>
+<td>派遣先座標（緯度）</td>
+<td>float</td>
+<td>目的地の緯度</td>
+</tr>
+<tr>
+<td>派遣先座標（経度）</td>
+<td>float</td>
+<td>目的地の経度</td>
+</tr>
+<tr>
+<td>現在座標（緯度）</td>
+<td>float</td>
+<td>仲間の現在位置（リアルタイム更新）</td>
+</tr>
+<tr>
+<td>現在座標（経度）</td>
+<td>float</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>残スタミナ</td>
+<td>int</td>
+<td>現在の残スタミナ値</td>
+</tr>
+<tr>
+<td>お墓フラグ</td>
+<td>bool</td>
+<td>true=敗北してお墓化中</td>
+</tr>
+<tr>
+<td>お墓座標（緯度）</td>
+<td>float</td>
+<td>敗北地点の緯度（お墓化時のみ有効）</td>
+</tr>
+<tr>
+<td>お墓座標（経度）</td>
+<td>float</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>派遣開始日時</td>
+<td>datetime</td>
+<td>派遣を開始した日時</td>
+</tr>
+</tbody>
 </table>
-
 <h2>5. 画面遷移フロー</h2>
-<pre>
-オーバーワールド（メイン画面）
+<pre><code>オーバーワールド（メイン画面）
   ↓ メニューから「派遣」を選択
 派遣メニュー画面
   ↓ マップ上の派遣先スポットを選択
@@ -108,46 +195,125 @@ pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
       救助メニュー
         ├─ リアル救助: GPS移動でお墓座標へ直接赴く
         └─ 課金救済: プレミアム通貨消費 → 即時復活ダイアログ
-</pre>
-
+</code></pre>
 <h2>6. 画面レイアウト</h2>
-
 <h3>6.1. 派遣確認ダイアログ</h3>
 <table>
-<tr><th>No.</th><th>パーツ名</th><th>種別</th><th>内容</th><th>処理</th></tr>
-<tr><td>1</td><td>派遣先情報</td><td>ラベル</td><td>目的地スポット名・距離</td><td>ー</td></tr>
-<tr><td>2</td><td>到達予想時間</td><td>ラベル</td><td>移動速度から算出した到達予想時間</td><td>ー</td></tr>
-<tr><td>3</td><td>スタミナ消費量</td><td>ラベル</td><td>消費スタミナ数・残スタミナ</td><td>ー</td></tr>
-<tr><td>4</td><td>確定ボタン</td><td>ボタン</td><td>派遣を確定する</td><td>バックグラウンド派遣開始→オーバーワールドへ</td></tr>
-<tr><td>5</td><td>キャンセルボタン</td><td>ボタン</td><td>派遣をキャンセル</td><td>派遣メニューへ戻る</td></tr>
-<tr><td>6</td><td>Backキー押下</td><td>ー</td><td>Android Backキー操作</td><td>キャンセルと同等</td></tr>
+<thead>
+<tr>
+<th>No.</th>
+<th>パーツ名</th>
+<th>種別</th>
+<th>内容</th>
+<th>処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>派遣先情報</td>
+<td>ラベル</td>
+<td>目的地スポット名・距離</td>
+<td>ー</td>
+</tr>
+<tr>
+<td>2</td>
+<td>到達予想時間</td>
+<td>ラベル</td>
+<td>移動速度から算出した到達予想時間</td>
+<td>ー</td>
+</tr>
+<tr>
+<td>3</td>
+<td>スタミナ消費量</td>
+<td>ラベル</td>
+<td>消費スタミナ数・残スタミナ</td>
+<td>ー</td>
+</tr>
+<tr>
+<td>4</td>
+<td>確定ボタン</td>
+<td>ボタン</td>
+<td>派遣を確定する</td>
+<td>バックグラウンド派遣開始→オーバーワールドへ</td>
+</tr>
+<tr>
+<td>5</td>
+<td>キャンセルボタン</td>
+<td>ボタン</td>
+<td>派遣をキャンセル</td>
+<td>派遣メニューへ戻る</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Backキー押下</td>
+<td>ー</td>
+<td>Android Backキー操作</td>
+<td>キャンセルと同等</td>
+</tr>
+</tbody>
 </table>
-
 <h3>6.2. お墓通知・救助ダイアログ</h3>
 <table>
-<tr><th>No.</th><th>パーツ名</th><th>種別</th><th>内容</th><th>処理</th></tr>
-<tr><td>1</td><td>通知メッセージ</td><td>ラベル</td><td>仲間名・お墓化した座標（地名）</td><td>ー</td></tr>
-<tr><td>2</td><td>リアル救助ボタン</td><td>ボタン</td><td>お墓座標をマップにピン表示</td><td>オーバーワールドへ戻りピン表示</td></tr>
-<tr><td>3</td><td>課金救済ボタン</td><td>ボタン</td><td>プレミアム通貨消費で即復活</td><td>消費確認ダイアログを挟む</td></tr>
-<tr><td>4</td><td>閉じるボタン</td><td>ボタン</td><td>後で対処する</td><td>ダイアログを閉じる</td></tr>
-<tr><td>5</td><td>Backキー押下</td><td>ー</td><td>Android Backキー操作</td><td>閉じると同等</td></tr>
+<thead>
+<tr>
+<th>No.</th>
+<th>パーツ名</th>
+<th>種別</th>
+<th>内容</th>
+<th>処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>通知メッセージ</td>
+<td>ラベル</td>
+<td>仲間名・お墓化した座標（地名）</td>
+<td>ー</td>
+</tr>
+<tr>
+<td>2</td>
+<td>リアル救助ボタン</td>
+<td>ボタン</td>
+<td>お墓座標をマップにピン表示</td>
+<td>オーバーワールドへ戻りピン表示</td>
+</tr>
+<tr>
+<td>3</td>
+<td>課金救済ボタン</td>
+<td>ボタン</td>
+<td>プレミアム通貨消費で即復活</td>
+<td>消費確認ダイアログを挟む</td>
+</tr>
+<tr>
+<td>4</td>
+<td>閉じるボタン</td>
+<td>ボタン</td>
+<td>後で対処する</td>
+<td>ダイアログを閉じる</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Backキー押下</td>
+<td>ー</td>
+<td>Android Backキー操作</td>
+<td>閉じると同等</td>
+</tr>
+</tbody>
 </table>
-
 <h2>7. 対象外（Out of Scope）</h2>
 <ul>
-<li><strong>詳細マップ（局所マップ）への侵入：</strong>派遣された仲間はオーバーワールド（広域マップ）のみ探索可能であり、詳細マップエリア内への侵入はできない。</li>
+<li><strong>詳細マップ（局所マップ）への侵入：</strong> 派遣された仲間はオーバーワールド（広域マップ）のみ探索可能であり、詳細マップエリア内への侵入はできない。</li>
 </ul>
-
 <h2>8. 未解決の問題</h2>
 <ul>
 <li>なし（すべての懸念点が仕様として決定済み）</li>
 </ul>
-
 <h2>9. 用語解説</h2>
 <ul>
-<li><strong>リアル探索 / 遠隔探索（派遣）：</strong>プレイヤー自身のGPS移動をリアル探索、メニューから仲間を向かわせる非同期移動を遠隔探索と呼称する。</li>
-<li><strong>お墓システム：</strong>派遣先で敗北した仲間がペナルティとしてその場に固定され、回収まで出撃不可になるシステム。</li>
+<li><strong>リアル探索 / 遠隔探索（派遣）：</strong> プレイヤー自身のGPS移動をリアル探索、メニューから仲間を向かわせる非同期移動を遠隔探索と呼称する。</li>
+<li><strong>お墓システム：</strong> 派遣先で敗北した仲間がペナルティとしてその場に固定され、回収まで出撃不可になるシステム。</li>
 </ul>
-
 </body>
 </html>

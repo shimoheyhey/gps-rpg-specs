@@ -4,125 +4,402 @@
 <meta charset="UTF-8">
 <title>機能_02_発見・収集</title>
 <style>
-body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; }
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; padding: 0 1em; }
+h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; }
+h2 { border-left: 4px solid #666; padding-left: 0.6em; margin-top: 1.8em; }
 table { border-collapse: collapse; width: 100%; margin: 1em 0; }
 th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
 th { background: #f0f0f0; }
 pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
+code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+pre code { background: transparent; padding: 0; }
+img { max-width: 100%; border: 1px solid #ccc; margin: 0.5em 0; }
+a { text-decoration: none; color: #1a6eb5; }
+a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 <h1>機能_02_発見・収集</h1>
-
 <h2>1. シナリオ</h2>
 <ul>
-<li><strong>ターゲット：</strong>オーバーワールドを移動中のプレイヤー、および派遣中の仲間キャラクター。</li>
-<li><strong>状況：</strong>広域マップ上を移動中、スポットの有効半径（30m）またはポリゴン範囲内に進入した際。</li>
-<li><strong>方法：</strong>スポット種別に応じて、バトル・アイテム取得・回復・イベントなどのインタラクションが自動起動される。</li>
+<li><strong>ターゲット：</strong> オーバーワールドを移動中のプレイヤー、および派遣中の仲間キャラクター。</li>
+<li><strong>状況：</strong> 広域マップ上を移動中、スポットの有効半径（30m）またはポリゴン範囲内に進入した際。</li>
+<li><strong>方法：</strong> スポット種別に応じて、バトル・アイテム取得・回復・イベントなどのインタラクションが自動起動される。</li>
 </ul>
-
 <h2>2. 概要</h2>
 <p>現実世界の施設（OpenStreetMapデータ）を冒険の舞台へ変換し、プレイヤーや仲間が接近してインタラクションを行う仕組みを定義する。V1では詳細マップを実装せず、すべてのスポットをオーバーワールド（広域マップ）上のアイコンとして処理する。</p>
-
 <h2>3. 詳細仕様</h2>
-
 <h3>3.1. スポット変換定義</h3>
-<p>ソース：マップオブジェクトリスト（Google Sheets）</p>
-
+<p>ソース：<a href="https://docs.google.com/spreadsheets/d/1UYmsiBZ0kJfqXIc9s_cvw16nFkgBzfVuK4745sxdvv0/">マップオブジェクトリスト</a></p>
 <p><strong>ボス・拠点系（バトル/イベント）</strong></p>
 <table>
-<tr><th>スポット名</th><th>OSMキー</th><th>OSM値</th><th>詳細マップ</th><th>効果</th><th>指定方法</th></tr>
-<tr><td>国宝五城</td><td>ー</td><td>ー</td><td>○</td><td>バトル/イベント</td><td>手動</td></tr>
-<tr><td>著名な城</td><td>ー</td><td>ー</td><td>○</td><td>バトル/イベント</td><td>手動</td></tr>
-<tr><td>日本主要駅</td><td>railway</td><td>station</td><td>×</td><td>バトル/イベント</td><td>手動</td></tr>
-<tr><td>各都道府県最大駅</td><td>railway</td><td>station</td><td>×</td><td>バトル/イベント</td><td>手動</td></tr>
-<tr><td>その他の駅</td><td>railway</td><td>station</td><td>×</td><td>イベント</td><td>OSM</td></tr>
-<tr><td>地下鉄入口</td><td>railway</td><td>subway_entrance</td><td>×</td><td>イベント</td><td>OSM</td></tr>
-<tr><td>ポスト</td><td>amenity</td><td>post_box</td><td>×</td><td>バトル/イベント</td><td>OSM</td></tr>
+<thead>
+<tr>
+<th>スポット名</th>
+<th>OSMキー</th>
+<th>OSM値</th>
+<th>詳細マップ</th>
+<th>効果</th>
+<th>指定方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>国宝五城</td>
+<td>ー</td>
+<td>ー</td>
+<td>○</td>
+<td>バトル/イベント</td>
+<td>手動</td>
+</tr>
+<tr>
+<td>著名な城</td>
+<td>ー</td>
+<td>ー</td>
+<td>○</td>
+<td>バトル/イベント</td>
+<td>手動</td>
+</tr>
+<tr>
+<td>日本主要駅</td>
+<td>railway</td>
+<td>station</td>
+<td>×</td>
+<td>バトル/イベント</td>
+<td>手動</td>
+</tr>
+<tr>
+<td>各都道府県最大駅</td>
+<td>railway</td>
+<td>station</td>
+<td>×</td>
+<td>バトル/イベント</td>
+<td>手動</td>
+</tr>
+<tr>
+<td>その他の駅</td>
+<td>railway</td>
+<td>station</td>
+<td>×</td>
+<td>イベント</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>地下鉄入口</td>
+<td>railway</td>
+<td>subway_entrance</td>
+<td>×</td>
+<td>イベント</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>ポスト</td>
+<td>amenity</td>
+<td>post_box</td>
+<td>×</td>
+<td>バトル/イベント</td>
+<td>OSM</td>
+</tr>
+</tbody>
 </table>
-
 <p><strong>詳細マップ遷移系（10,000㎡以上の大規模エリア）</strong></p>
 <table>
-<tr><th>スポット名</th><th>OSMキー</th><th>OSM値</th><th>詳細マップ</th><th>効果</th><th>指定方法</th></tr>
-<tr><td>遊園地</td><td>tourism</td><td>theme_park</td><td>○</td><td>詳細マップ</td><td>OSM</td></tr>
-<tr><td>公園（大規模）</td><td>leisure</td><td>park</td><td>○</td><td>詳細マップ</td><td>OSM</td></tr>
-<tr><td>店舗ビル</td><td>building</td><td>retail</td><td>○</td><td>詳細マップ</td><td>OSM</td></tr>
-<tr><td>商業ビル</td><td>building</td><td>commercial</td><td>○</td><td>詳細マップ</td><td>OSM</td></tr>
-<tr><td>小売店エリア</td><td>landuse</td><td>retail</td><td>○</td><td>詳細マップ</td><td>OSM</td></tr>
+<thead>
+<tr>
+<th>スポット名</th>
+<th>OSMキー</th>
+<th>OSM値</th>
+<th>詳細マップ</th>
+<th>効果</th>
+<th>指定方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>遊園地</td>
+<td>tourism</td>
+<td>theme_park</td>
+<td>○</td>
+<td>詳細マップ</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>公園（大規模）</td>
+<td>leisure</td>
+<td>park</td>
+<td>○</td>
+<td>詳細マップ</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>店舗ビル</td>
+<td>building</td>
+<td>retail</td>
+<td>○</td>
+<td>詳細マップ</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>商業ビル</td>
+<td>building</td>
+<td>commercial</td>
+<td>○</td>
+<td>詳細マップ</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>小売店エリア</td>
+<td>landuse</td>
+<td>retail</td>
+<td>○</td>
+<td>詳細マップ</td>
+<td>OSM</td>
+</tr>
+</tbody>
 </table>
-
 <p><strong>回収・イベント系</strong></p>
 <table>
-<tr><th>スポット名</th><th>OSMキー</th><th>OSM値</th><th>詳細マップ</th><th>効果</th><th>指定方法</th></tr>
-<tr><td>バス停</td><td>highway</td><td>bus_stop</td><td>×</td><td>イベント</td><td>OSM</td></tr>
-<tr><td>銭湯</td><td>amenity</td><td>public_bath</td><td>×</td><td>イベント</td><td>OSM</td></tr>
-<tr><td>公衆電話</td><td>amenity</td><td>telephone</td><td>×</td><td>アイテム入手</td><td>OSM</td></tr>
-<tr><td>トイレ</td><td>amenity</td><td>toilets</td><td>×</td><td>アイテム入手</td><td>OSM</td></tr>
-<tr><td>宗教施設</td><td>amenity</td><td>place_of_worship</td><td>×</td><td>イベント</td><td>OSM</td></tr>
-<tr><td>公園（小規模）</td><td>leisure</td><td>park</td><td>×</td><td>イベント</td><td>OSM</td></tr>
-<tr><td>地蔵</td><td>historic</td><td>wayside_shrine</td><td>×</td><td>イベント</td><td>OSM</td></tr>
-<tr><td>記念碑</td><td>historic</td><td>memorial</td><td>×</td><td>イベント</td><td>OSM</td></tr>
-<tr><td>芸術作品</td><td>tourism</td><td>artwork</td><td>×</td><td>イベント</td><td>OSM</td></tr>
+<thead>
+<tr>
+<th>スポット名</th>
+<th>OSMキー</th>
+<th>OSM値</th>
+<th>詳細マップ</th>
+<th>効果</th>
+<th>指定方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>バス停</td>
+<td>highway</td>
+<td>bus_stop</td>
+<td>×</td>
+<td>イベント</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>銭湯</td>
+<td>amenity</td>
+<td>public_bath</td>
+<td>×</td>
+<td>イベント</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>公衆電話</td>
+<td>amenity</td>
+<td>telephone</td>
+<td>×</td>
+<td>アイテム入手</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>トイレ</td>
+<td>amenity</td>
+<td>toilets</td>
+<td>×</td>
+<td>アイテム入手</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>宗教施設</td>
+<td>amenity</td>
+<td>place_of_worship</td>
+<td>×</td>
+<td>イベント</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>公園（小規模）</td>
+<td>leisure</td>
+<td>park</td>
+<td>×</td>
+<td>イベント</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>地蔵</td>
+<td>historic</td>
+<td>wayside_shrine</td>
+<td>×</td>
+<td>イベント</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>記念碑</td>
+<td>historic</td>
+<td>memorial</td>
+<td>×</td>
+<td>イベント</td>
+<td>OSM</td>
+</tr>
+<tr>
+<td>芸術作品</td>
+<td>tourism</td>
+<td>artwork</td>
+<td>×</td>
+<td>イベント</td>
+<td>OSM</td>
+</tr>
+</tbody>
 </table>
-
 <h3>3.2. 手動指定スポット一覧</h3>
+<p>OSM自動取得ではなく手動で座標指定するスポット。</p>
 <table>
-<tr><th>種別</th><th>対象</th></tr>
-<tr><td>国宝五城</td><td>姫路城、松本城、彦根城、犬山城、松江城</td></tr>
-<tr><td>著名な城</td><td>五稜郭、弘前城、若松城、安土城、備中松山城、高知城、首里城、今帰仁城、大阪城、丸岡城、丸亀城、宇和島城</td></tr>
-<tr><td>日本主要駅</td><td>東京駅、大阪駅、名古屋駅、札幌駅、京都駅、博多駅</td></tr>
-<tr><td>各都道府県最大駅</td><td>青森駅、盛岡駅、仙台駅、秋田駅、山形駅、福島駅、水戸駅、宇都宮駅、高崎駅、大宮駅、千葉駅、横浜駅、新潟駅、富山駅、金沢駅、福井駅、甲府駅、長野駅、岐阜駅、静岡駅、津駅、大津駅、三ノ宮駅、奈良駅、和歌山駅、鳥取駅、松江駅、岡山駅、広島駅、山口駅、徳島駅、高松駅、松山駅、高知駅、佐賀駅、長崎駅、熊本駅、大分駅、宮崎駅、鹿児島中央駅、県庁前駅</td></tr>
+<thead>
+<tr>
+<th>種別</th>
+<th>対象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>国宝五城</td>
+<td>姫路城、松本城、彦根城、犬山城、松江城</td>
+</tr>
+<tr>
+<td>著名な城</td>
+<td>五稜郭、弘前城、若松城、安土城、備中松山城、高知城、首里城、今帰仁城、大阪城、丸岡城、丸亀城、宇和島城</td>
+</tr>
+<tr>
+<td>日本主要駅</td>
+<td>東京駅、大阪駅、名古屋駅、札幌駅、京都駅、博多駅</td>
+</tr>
+<tr>
+<td>各都道府県最大駅</td>
+<td>青森駅、盛岡駅、仙台駅、秋田駅、山形駅、福島駅、水戸駅、宇都宮駅、高崎駅、大宮駅、千葉駅、横浜駅、新潟駅、富山駅、金沢駅、福井駅、甲府駅、長野駅、岐阜駅、静岡駅、津駅、大津駅、三ノ宮駅、奈良駅、和歌山駅、鳥取駅、松江駅、岡山駅、広島駅、山口駅、徳島駅、高松駅、松山駅、高知駅、佐賀駅、長崎駅、熊本駅、大分駅、宮崎駅、鹿児島中央駅、県庁前駅</td>
+</tr>
+</tbody>
 </table>
-
 <h3>3.3. インタラクション判定</h3>
 <ul>
-<li><strong>判定方式：</strong>プレイヤーのGPS座標、または派遣中の仲間の座標がスポットの有効半径（例：30m）に入った際に実行。</li>
-<li><strong>詳細マップ遷移条件：</strong>詳細マップ属性○のスポットはポリゴン判定。10,000㎡未満の公園は詳細マップ×として重心30m判定を適用する。</li>
-<li><strong>V1の特例：</strong>詳細マップ属性○のスポットも、V1では詳細マップへ遷移せず、接触時に直接「バトル」や「メニュー」を開始する。</li>
+<li><strong>判定方式：</strong> プレイヤーのGPS座標、または派遣中の仲間の座標がスポットの有効半径（例：30m）に入った際に実行。</li>
+<li><strong>詳細マップ遷移条件：</strong> 詳細マップ属性○のスポットはポリゴン判定。10,000㎡未満の公園は詳細マップ×として重心30m判定を適用する。</li>
+<li><strong>V1の特例：</strong> 詳細マップ属性○のスポットも、V1では詳細マップへ遷移せず、接触時に直接「バトル」や「メニュー」を開始する。</li>
 </ul>
-
 <h3>3.4. 報酬と効果の反映</h3>
 <ul>
-<li><strong>バトル反映：</strong>「ポスト」「城」「主要駅」に接触した場合、既存のオートバトルシステムを呼び出す。</li>
-<li><strong>アイテム反映：</strong>「公衆電話」「トイレ」で獲得したアイテムは、即座にインベントリへ追加される。</li>
-<li><strong>イベント反映：</strong>それ以外のスポットはイベントシステムを呼び出す（効果の詳細はイベント仕様書に委ねる）。</li>
+<li><strong>バトル反映：</strong> 「ポスト」「城」「主要駅」に接触した場合、既存のオートバトルシステムを呼び出す。</li>
+<li><strong>アイテム反映：</strong> 「公衆電話」「トイレ」で獲得したアイテムは、即座にインベントリへ追加される。</li>
+<li><strong>イベント反映：</strong> それ以外のスポットはイベントシステムを呼び出す（効果の詳細はイベント仕様書に委ねる）。</li>
 </ul>
-
 <h2>4. マスターデータ定義</h2>
-
 <h3>4.1. スポット定義テーブル（マスターデータ）</h3>
+<p>ソース：<a href="https://docs.google.com/spreadsheets/d/1UYmsiBZ0kJfqXIc9s_cvw16nFkgBzfVuK4745sxdvv0/">マップオブジェクトリスト</a></p>
 <table>
-<tr><th>カラム項目</th><th>型</th><th>取り得る値 / 説明</th></tr>
-<tr><td>スポットID</td><td>string</td><td>アイコンIDと同一。例：001_001_0001</td></tr>
-<tr><td>スポット名</td><td>string</td><td>ゲーム内での表示名。例：国宝五城</td></tr>
-<tr><td>OSMキー</td><td>string</td><td>OSMタグのキー。例：railway</td></tr>
-<tr><td>OSM値</td><td>string</td><td>OSMタグの値。例：station</td></tr>
-<tr><td>詳細マップ属性</td><td>bool</td><td>true=詳細マップ遷移対象 / false=非対象</td></tr>
-<tr><td>詳細マップ面積条件</td><td>int（㎡）</td><td>詳細マップ遷移の最低面積。例：10000。手動指定は0</td></tr>
-<tr><td>効果タイプ</td><td>enum</td><td>バトル / イベント / アイテム入手 / 詳細マップ</td></tr>
-<tr><td>アイコンID</td><td>string</td><td>使用する画像ID。例：001_002_0004</td></tr>
-<tr><td>種別</td><td>enum</td><td>城 / 建築物 / 祠 / モニュメント / 宝箱 / 複合シンボル</td></tr>
-<tr><td>指定方法</td><td>enum</td><td>手動 / OSM</td></tr>
-<tr><td>備考</td><td>string</td><td>ゲーム内説明・配置条件の補足</td></tr>
+<thead>
+<tr>
+<th>カラム項目</th>
+<th>型</th>
+<th>取り得る値 / 説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>スポットID</td>
+<td>string</td>
+<td>アイコンIDと同一。例：001_001_0001</td>
+</tr>
+<tr>
+<td>スポット名</td>
+<td>string</td>
+<td>ゲーム内での表示名。例：国宝五城</td>
+</tr>
+<tr>
+<td>OSMキー</td>
+<td>string</td>
+<td>OSMタグのキー。例：railway</td>
+</tr>
+<tr>
+<td>OSM値</td>
+<td>string</td>
+<td>OSMタグの値。例：station</td>
+</tr>
+<tr>
+<td>詳細マップ属性</td>
+<td>bool</td>
+<td>true=詳細マップ遷移対象 / false=非対象</td>
+</tr>
+<tr>
+<td>詳細マップ面積条件</td>
+<td>int（㎡）</td>
+<td>詳細マップ遷移の最低面積。例：10000。手動指定は0</td>
+</tr>
+<tr>
+<td>効果タイプ</td>
+<td>enum</td>
+<td>バトル / イベント / アイテム入手 / 詳細マップ</td>
+</tr>
+<tr>
+<td>アイコンID</td>
+<td>string</td>
+<td>使用する画像ID。例：001_002_0004</td>
+</tr>
+<tr>
+<td>種別</td>
+<td>enum</td>
+<td>城 / 建築物 / 祠 / モニュメント / 宝箱 / 複合シンボル</td>
+</tr>
+<tr>
+<td>指定方法</td>
+<td>enum</td>
+<td>手動 / OSM</td>
+</tr>
+<tr>
+<td>備考</td>
+<td>string</td>
+<td>ゲーム内説明・配置条件の補足</td>
+</tr>
+</tbody>
 </table>
-
 <h3>4.2. スポット解放状態テーブル（ユーザーデータ）</h3>
 <table>
-<tr><th>カラム項目</th><th>型</th><th>取り得る値 / 説明</th></tr>
-<tr><td>ユーザーID</td><td>string</td><td>プレイヤー識別子</td></tr>
-<tr><td>スポットID</td><td>string</td><td>対象スポットのID</td></tr>
-<tr><td>訪問済み</td><td>bool</td><td>true=訪問履歴あり</td></tr>
-<tr><td>解放済み</td><td>bool</td><td>ポスト等、バトルで解放が必要なスポットの解放状態</td></tr>
-<tr><td>収集済み</td><td>bool</td><td>宝箱・アイテムスポットの収集済み状態</td></tr>
-<tr><td>最終訪問日時</td><td>datetime</td><td>最後にインタラクションした日時</td></tr>
+<thead>
+<tr>
+<th>カラム項目</th>
+<th>型</th>
+<th>取り得る値 / 説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユーザーID</td>
+<td>string</td>
+<td>プレイヤー識別子</td>
+</tr>
+<tr>
+<td>スポットID</td>
+<td>string</td>
+<td>対象スポットのID</td>
+</tr>
+<tr>
+<td>訪問済み</td>
+<td>bool</td>
+<td>true=訪問履歴あり</td>
+</tr>
+<tr>
+<td>解放済み</td>
+<td>bool</td>
+<td>ポスト等、バトルで解放が必要なスポットの解放状態</td>
+</tr>
+<tr>
+<td>収集済み</td>
+<td>bool</td>
+<td>宝箱・アイテムスポットの収集済み状態</td>
+</tr>
+<tr>
+<td>最終訪問日時</td>
+<td>datetime</td>
+<td>最後にインタラクションした日時</td>
+</tr>
+</tbody>
 </table>
-
 <h2>5. 画面遷移フロー</h2>
-<pre>
-オーバーワールド（メイン画面）
+<pre><code>オーバーワールド（メイン画面）
   ↓ スポット有効半径内に進入（30m or ポリゴン）
   ├─【バトル系】ポスト・城・駅
-  │     バトルエリア活性化（<a href="機能_05_バトル.html">機能_05</a>参照）
+  │     バトルエリア活性化（機能_05参照）
   │
   ├─【アイテム系】公衆電話・トイレ
   │     アイテム取得ダイアログ
@@ -133,41 +410,75 @@ pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
         イベントダイアログ表示
           ↓ OK / 閉じる
         オーバーワールドへ
-</pre>
-
+</code></pre>
 <h2>6. 画面レイアウト</h2>
-
 <h3>6.1. アイテム取得ダイアログ</h3>
 <table>
-<tr><th>No.</th><th>パーツ名</th><th>種別</th><th>内容</th><th>処理</th></tr>
-<tr><td>1</td><td>スポットアイコン</td><td>画像</td><td>対象スポットのアイコン</td><td>ー</td></tr>
-<tr><td>2</td><td>アイテム名・説明</td><td>ラベル</td><td>取得するアイテムの名称と効果</td><td>ー</td></tr>
-<tr><td>3</td><td>OKボタン</td><td>ボタン</td><td>ダイアログを閉じる</td><td>インベントリへ追加してオーバーワールドへ</td></tr>
-<tr><td>4</td><td>ポップアップ外タップ</td><td>ー</td><td>ダイアログ外への操作</td><td>無効</td></tr>
-<tr><td>5</td><td>Backキー押下</td><td>ー</td><td>Android Backキー操作</td><td>OKと同等</td></tr>
+<thead>
+<tr>
+<th>No.</th>
+<th>パーツ名</th>
+<th>種別</th>
+<th>内容</th>
+<th>処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>スポットアイコン</td>
+<td>画像</td>
+<td>対象スポットのアイコン</td>
+<td>ー</td>
+</tr>
+<tr>
+<td>2</td>
+<td>アイテム名・説明</td>
+<td>ラベル</td>
+<td>取得するアイテムの名称と効果</td>
+<td>ー</td>
+</tr>
+<tr>
+<td>3</td>
+<td>OKボタン</td>
+<td>ボタン</td>
+<td>ダイアログを閉じる</td>
+<td>インベントリへ追加してオーバーワールドへ</td>
+</tr>
+<tr>
+<td>4</td>
+<td>ポップアップ外タップ</td>
+<td>ー</td>
+<td>ダイアログ外への操作</td>
+<td>無効</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Backキー押下</td>
+<td>ー</td>
+<td>Android Backキー操作</td>
+<td>OKと同等</td>
+</tr>
+</tbody>
 </table>
-
 <h2>7. 対象外（Out of Scope）</h2>
 <ul>
-<li><strong>詳細マップへの遷移：</strong>いかなるスポットにおいても拡大マップへの切り替えは行わない（V1）。</li>
-<li><strong>キノコ（ベンチ）：</strong>詳細マップ専用オブジェクトであるため、V1では一切配置しない。</li>
+<li><strong>詳細マップへの遷移：</strong> いかなるスポットにおいても拡大マップへの切り替えは行わない（V1）。</li>
+<li><strong>キノコ（ベンチ）：</strong> 詳細マップ専用オブジェクトであるため、V1では一切配置しない。</li>
 </ul>
-
 <h2>8. 未解決の問題</h2>
 <ul>
-<li><strong>アイコン名の競合：</strong>商業ビル・店舗ビルのアイコンIDが同一（001_007_0003）。ゲーム画面上での識別方法を要検討。</li>
-<li><strong>カギの入手方法：</strong>公衆電話やトイレで必要となる「カギ」を、どのタイミングや報酬でプレイヤーに渡すか。</li>
-<li><strong>公園の面積判定：</strong>OSMのparkタグのうち10,000㎡以上を詳細マップ対象とする判定処理の実装方法。</li>
-<li><strong>各スポットのイベント詳細：</strong>銭湯・宗教施設・その他イベント系スポットで発生するイベントの内容・効果が未決定。イベント仕様書に委ねる。</li>
+<li><strong>アイコン名の競合：</strong> 商業ビル・店舗ビルのアイコンIDが同一（001_007_0003）。ゲーム画面上での識別方法を要検討。</li>
+<li><strong>カギの入手方法：</strong> 公衆電話やトイレで必要となる「カギ」を、どのタイミングや報酬でプレイヤーに渡すか。</li>
+<li><strong>公園の面積判定：</strong> OSMのparkタグのうち10,000㎡以上を詳細マップ対象とする判定処理の実装方法。</li>
+<li><strong>各スポットのイベント詳細：</strong> 銭湯・宗教施設・その他イベント系スポットで発生するイベントの内容・効果が未決定。イベント仕様書に委ねる。</li>
 </ul>
-
 <h2>9. 用語解説</h2>
 <ul>
-<li><strong>OSM：</strong>OpenStreetMap。現実の施設情報のオープンソースデータベース。</li>
-<li><strong>スポット：</strong>OSMデータを変換して生成された、マップ上の干渉ポイント。</li>
-<li><strong>詳細マップ属性：</strong>そのスポットが詳細マップへの遷移トリガーになり得るかを示すフラグ。</li>
-<li><strong>手動指定：</strong>OSMタグではなく、運営が座標を個別に設定するスポット。城・主要駅が対象。</li>
+<li><strong>OSM：</strong> OpenStreetMap。現実の施設情報のオープンソースデータベース。</li>
+<li><strong>スポット：</strong> OSMデータを変換して生成された、マップ上の干渉ポイント。</li>
+<li><strong>詳細マップ属性：</strong> そのスポットが詳細マップへの遷移トリガーになり得るかを示すフラグ。</li>
+<li><strong>手動指定：</strong> OSMタグではなく、運営が座標を個別に設定するスポット。城・主要駅が対象。</li>
 </ul>
-
 </body>
 </html>
