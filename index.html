@@ -4,65 +4,108 @@
 <meta charset="UTF-8">
 <title>GPS RPG 仕様書インデックス</title>
 <style>
-body { font-family: sans-serif; max-width: 800px; margin: 2em auto; line-height: 1.7; padding: 0 1em; }
+body { font-family: sans-serif; max-width: 960px; margin: 2em auto; line-height: 1.7; padding: 0 1em; color: #222; }
 h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; }
-h2 { border-left: 4px solid #666; padding-left: 0.6em; margin-top: 1.8em; }
+h2 { border-left: 4px solid #666; padding-left: 0.6em; margin-top: 2em; }
+.section-desc { color: #555; margin: 0.2em 0 0.8em; font-size: 0.95em; }
 ul { list-style: none; padding: 0; }
-li { padding: 4px 0; border-bottom: 1px solid #eee; }
+li { padding: 8px 0; border-bottom: 1px solid #eee; }
+li .title { font-weight: bold; font-size: 1.05em; }
+li .summary { display: block; color: #444; font-size: 0.93em; margin: 2px 0; }
+li .keywords { color: #888; font-size: 0.85em; }
+li .keywords::before { content: "🔑 "; }
 a { text-decoration: none; color: #1a6eb5; }
 a:hover { text-decoration: underline; }
 .note { color: #666; font-size: 0.9em; }
+.toc { background: #f7f9fb; border: 1px solid #ddd; padding: 0.8em 1.2em; border-radius: 4px; margin: 1em 0 2em; }
+.toc ul { list-style: none; padding: 0; margin: 0.4em 0 0; columns: 2; }
+.toc li { padding: 2px 0; border: none; }
+.uncategorized h2 { border-left-color: #c66; }
+.uncategorized .section-desc { color: #c66; }
 </style>
 </head>
 <body>
 <h1>GPS RPG 仕様書インデックス</h1>
-<p class="note">公開URL: https://shimoheyhey.github.io/gps-rpg-specs/</p>
-<h2>概要</h2>
+<p class="note">公開URL: <a href="https://shimoheyhey.github.io/gps-rpg-specs/">https://shimoheyhey.github.io/gps-rpg-specs/</a></p>
+<div class="toc">
+<strong>カテゴリ目次：</strong>
+<ul><li><a href="#sec-概要">概要</a> <span class="note">(10)</span></li>
+<li><a href="#sec-機能">機能</a> <span class="note">(9)</span></li>
+<li><a href="#sec-ゲームフロー">ゲームフロー</a> <span class="note">(3)</span></li>
+<li><a href="#sec-演出">演出</a> <span class="note">(1)</span></li>
+<li><a href="#sec-モック">モック</a> <span class="note">(1)</span></li>
+<li><a href="#sec-デザイン">デザイン</a> <span class="note">(1)</span></li>
+<li><a href="#sec-画面レイアウト">画面レイアウト</a> <span class="note">(3)</span></li>
+<li><a href="#sec-画面レイアウト">画面レイアウト</a> <span class="note">(3)</span></li>
+<li><a href="#sec-uncategorized" style="color:#c66">未分類</a> <span class="note">(1)</span></li></ul>
+</div>
+<section id="sec-概要"><h2>概要</h2>
+<p class="section-desc">ゲーム全体のコンセプトと画面遷移の俯瞰</p>
 <ul>
-<li><a href="全体概要.html">全体概要</a></li>
-<li><a href="画面遷移図.html">画面遷移図</a></li>
-</ul>
-<h2>機能</h2>
+<li><a class="title" href="全体概要.html">全体概要</a><span class="summary">ゲームコンセプト・体験サイクル・機能一覧</span><span class="keywords">コンセプト, WALK, DISCOVER, UNLOCK, BOSS, DISPATCH</span></li>
+<li><a class="title" href="画面遷移図.html">画面遷移図</a><span class="summary">アプリ全体の画面一覧と遷移フロー</span><span class="keywords">画面遷移, 画面一覧, フロー, 未設計</span></li>
+<li><a class="title" href="params_設計.html">params_設計</a><span class="summary">パラメータ設計方針・Googleシートへのリンク集</span></li>
+<li><a class="title" href="params_character.html">params_character</a><span class="summary">キャラクターパラメータ定義（Googleシートからのスナップショット）</span></li>
+<li><a class="title" href="params_weapon.html">params_weapon</a><span class="summary">武器パラメータ定義（同上）</span></li>
+<li><a class="title" href="params_accessory.html">params_accessory</a><span class="summary">アクセサリーパラメータ定義（同上）</span></li>
+<li><a class="title" href="gps_game_proposal_20260313030407.pptx">gps_game_proposal_20260313030407</a><span class="summary">ゲーム企画書スライド（2026-03-13）</span></li>
+<li><a class="title" href="INDEX.html">INDEX</a><span class="summary">症状逆引き表＋ファイル別タグ一覧</span></li>
+<li><a class="title" href="仕様書作成ルール.html">仕様書作成ルール</a><span class="summary">§1〜§7：基本方針・記述ルール・テンプレート・マスターデータ・画面遷移・レイアウト・チェックリスト</span></li>
+<li><a class="title" href="md_to_html.py">md_to_html</a><span class="summary">specs/ のMDを docs/ のHTMLに変換</span></li>
+</ul></section>
+<section id="sec-機能"><h2>機能</h2>
+<p class="section-desc">ゲームメカニクスの実装仕様（エンジニア向け）</p>
 <ul>
-<li><a href="オブジェクト配置ルール.html">オブジェクト配置ルール</a></li>
-<li><a href="マップタイルルール.html">マップタイルルール</a></li>
-<li><a href="機能_00_MAP_ENGINE.html">機能_00_MAP ENGINE</a></li>
-<li><a href="機能_01_歩行・移動.html">機能_01_歩行・移動</a></li>
-<li><a href="機能_02_発見・収集.html">機能_02_発見・収集</a></li>
-<li><a href="機能_03_詳細マップ探索.html">機能_03_詳細マップ探索</a></li>
-<li><a href="機能_04_派遣・救助.html">機能_04_派遣・救助</a></li>
-<li><a href="機能_05_バトル.html">機能_05_バトル</a></li>
-<li><a href="機能_06_仲間加入.html">機能_06_仲間加入</a></li>
-</ul>
-<h2>ゲームフロー</h2>
+<li><a class="title" href="機能_00_MAP_ENGINE.html">機能_00_MAP ENGINE</a><span class="summary">OSMデータのタイル変換・LOD制御・判定ロジック</span><span class="keywords">OSM, タイル, LOD, エンカウント判定, スポット半径</span></li>
+<li><a class="title" href="機能_01_歩行・移動.html">機能_01_歩行・移動</a><span class="summary">GPS移動検知・高速移動制限・デッドレコニング</span><span class="keywords">GPS, 移動速度, 20km/h, テレポート補間, デッドレコニング</span></li>
+<li><a class="title" href="機能_02_発見・収集.html">機能_02_発見・収集</a><span class="summary">スポット検知・アイテム取得・OSMマッピング定義</span><span class="keywords">スポット, 収集, 駅, 公園, 銭湯, 宗教施設, マップオブジェクト</span></li>
+<li><a class="title" href="機能_03_詳細マップ探索.html">機能_03_詳細マップ探索</a><span class="summary">詳細マップ侵入・GPSロスト対策・強制退出ロジック</span><span class="keywords">詳細マップ, ポリゴン, GPSロスト, 5秒猶予, 50m×80m</span></li>
+<li><a class="title" href="機能_04_派遣・救助.html">機能_04_派遣・救助</a><span class="summary">仲間の遠隔派遣・お墓化・課金救済システム</span><span class="keywords">派遣, スタミナ, お墓, 救助, バックグラウンド, 非同期</span></li>
+<li><a class="title" href="機能_05_バトル.html">機能_05_バトル</a><span class="summary">オートバトル・リキャスト計算・敵スタック管理</span><span class="keywords">バトル, リキャスト, 攻速, 即時発動, 敵スタック, 計算式</span></li>
+<li><a class="title" href="機能_06_仲間加入.html">機能_06_仲間加入</a><span class="summary">石化救出型・フィールド遭遇型の2ルートによる仲間加入システム</span><span class="keywords">仲間, 石化, 救出, フィールド, 遭遇, 加入条件</span></li>
+<li><a class="title" href="マップタイルルール.html">マップタイルルール</a><span class="summary">OSMタグ→タイル画像の変換マスター・装飾タイル確率分布</span><span class="keywords">OSM, タイル, SP-Land.png, 優先度, 草原ランダム, 砂ランダム</span></li>
+<li><a class="title" href="オブジェクト配置ルール.html">オブジェクト配置ルール</a><span class="summary">オブジェクトアイコン配置・詳細マップ内サブオブジェクト・吹き出しUI</span><span class="keywords">アイコン, サブオブジェクト, 吹き出し, HPゲージ, 手動指定</span></li>
+</ul></section>
+<section id="sec-ゲームフロー"><h2>ゲームフロー</h2>
+<p class="section-desc">ゲーム進行・状態遷移・ストーリーペーシング</p>
 <ul>
-<li><a href="ゲームフロー_01_チュートリアル.html">ゲームフロー_01_チュートリアル</a></li>
-<li><a href="ゲームフロー_02_ストーリークエスト.html">ゲームフロー_02_ストーリークエスト</a></li>
-<li><a href="ゲームフロー_メインストーリー進捗.html">ゲームフロー_メインストーリー進捗</a></li>
-</ul>
-<h2>演出</h2>
+<li><a class="title" href="ゲームフロー_01_チュートリアル.html">ゲームフロー_01_チュートリアル</a><span class="summary">チュートリアルから本編開始までの状態遷移・演出フロー</span><span class="keywords">チュートリアル, 石化, 飛散, GPS再同期, is_petrified, プロローグ</span></li>
+<li><a class="title" href="ゲームフロー_02_ストーリークエスト.html">ゲームフロー_02_ストーリークエスト</a><span class="summary">石化した仲間3人を救出するメインクエストの進行フロー</span><span class="keywords">ストーリー, クエスト, 救出, 手がかり, UNLOCK, エンディング</span></li>
+<li><a class="title" href="ゲームフロー_メインストーリー進捗.html">ゲームフロー_メインストーリー進捗</a><span class="summary">フィボナッチ係数を用いたストーリー進捗ペーシング設計</span><span class="keywords">フィボナッチ, 苦労度, 累積, ストーリー解放, ペーシング</span></li>
+</ul></section>
+<section id="sec-演出"><h2>演出</h2>
+<p class="section-desc">視覚演出・アニメーション・エフェクト仕様</p>
 <ul>
-<li><a href="演出_01_バトル.html">演出_01_バトル</a></li>
-</ul>
-<h2>モック</h2>
+<li><a class="title" href="演出_01_バトル.html">演出_01_バトル</a><span class="summary">バトル演出レイヤー・ヒットマズル・死亡アニメ</span><span class="keywords">演出, エフェクト, ヒットマズル, ダメージ数字, ワンバウンド, 逃走</span></li>
+</ul></section>
+<section id="sec-モック"><h2>モック</h2>
+<p class="section-desc">モック実装時の仮パラメータ・テスト用データ</p>
 <ul>
-<li><a href="モック_バトル概要.html">モック_バトル概要</a></li>
-</ul>
-<h2>デザイン</h2>
+<li><a class="title" href="モック_バトル概要.html">モック_バトル概要</a><span class="summary">バトルモックのプレイヤー・敵パラメータ・エフェクト素材</span><span class="keywords">モック, HP, 攻撃力, スライム, アニメーション, エフェクト素材</span></li>
+</ul></section>
+<section id="sec-デザイン"><h2>デザイン</h2>
+<p class="section-desc">デザインリソース管理ルール（採番・命名）</p>
 <ul>
-<li><a href="デザインリソース管理仕様書.html">デザインリソース管理仕様書</a></li>
-</ul>
-<h2>画面レイアウト</h2>
+<li><a class="title" href="デザインリソース管理仕様書.html">デザインリソース管理仕様書</a><span class="summary">画像リソースのマルチID（XXX_YYY_ZZZZ）採番ルール</span><span class="keywords">デザイン, リソース, ID, マルチID, アイコン</span></li>
+</ul></section>
+<section id="sec-画面レイアウト"><h2>画面レイアウト</h2>
+<p class="section-desc">各画面のUIレイアウト・モック</p>
 <ul>
-<li><a href="layout_演出_バトル.html">layout_演出_バトル</a></li>
-<li><a href="layout_画面下部.html">layout_画面下部</a></li>
-</ul>
-<h2>パラメータ</h2>
+<li><a class="title" href="画面下部概要.gsheet">画面下部概要</a><span class="summary">画面下部（バトルエリア）のレイアウト・モック（Googleシート）</span><span class="keywords">画面下部, バトルエリア, レイアウト, モック</span></li>
+<li><a class="title" href="layout_演出_バトル.html">layout_演出_バトル</a><span class="summary">バトル演出レイヤー構成のHTMLレイアウトモック</span><span class="keywords">レイアウト, バトル, 演出, レイヤー</span></li>
+<li><a class="title" href="layout_画面下部.html">layout_画面下部</a><span class="summary">画面下部UIのHTMLレイアウトモック</span><span class="keywords">レイアウト, 画面下部, UI</span></li>
+</ul></section>
+<section id="sec-画面レイアウト"><h2>画面レイアウト</h2>
+<p class="section-desc">各画面のUIレイアウト・モック</p>
 <ul>
-<li><a href="params_accessory.html">params_accessory</a></li>
-<li><a href="params_character.html">params_character</a></li>
-<li><a href="params_weapon.html">params_weapon</a></li>
-<li><a href="params_設計.html">params_設計</a></li>
-</ul>
+<li><a class="title" href="画面下部概要.gsheet">画面下部概要</a><span class="summary">画面下部（バトルエリア）のレイアウト・モック（Googleシート）</span><span class="keywords">画面下部, バトルエリア, レイアウト, モック</span></li>
+<li><a class="title" href="layout_演出_バトル.html">layout_演出_バトル</a><span class="summary">バトル演出レイヤー構成のHTMLレイアウトモック</span><span class="keywords">レイアウト, バトル, 演出, レイヤー</span></li>
+<li><a class="title" href="layout_画面下部.html">layout_画面下部</a><span class="summary">画面下部UIのHTMLレイアウトモック</span><span class="keywords">レイアウト, 画面下部, UI</span></li>
+</ul></section>
+<section id="sec-uncategorized" class="uncategorized"><h2>未分類</h2>
+<p class="section-desc">INDEX.md に未登録のファイル。INDEX.md への追記を推奨</p>
+<ul>
+<li><a class="title" href="道タイルAutotile仕様.html">道タイルAutotile仕様</a></li>
+</ul></section>
 </body>
 </html>

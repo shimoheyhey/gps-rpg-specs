@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>道タイルAutotile仕様</title>
+<style>
+body { font-family: sans-serif; max-width: 900px; margin: 2em auto; line-height: 1.7; padding: 0 1em; }
+h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; }
+h2 { border-left: 4px solid #666; padding-left: 0.6em; margin-top: 1.8em; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+th { background: #f0f0f0; }
+pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
+code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+pre code { background: transparent; padding: 0; }
+img { max-width: 100%; border: 1px solid #ccc; margin: 0.5em 0; }
+a { text-decoration: none; color: #1a6eb5; }
+a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<h1>道タイル Autotile 仕様</h1>
+<p>HAS Overworld 2.1 の <code>Universal-Road-Tileset.png</code> を使った道の自動配置アルゴリズム。</p>
+<ul>
+<li><strong>対象素材</strong>：<code>Universal-Road-Tileset.png</code>（256×176 = 16×11タイル）</li>
+<li><strong>対応スタイル</strong>：砂・土・石畳・レンガ（4スタイル、レイアウト完全同一）</li>
+<li><strong>実装</strong>：<code>tools/road_explainer.py</code> の <code>draw_road_overlay()</code></li>
+<li><strong>可視化</strong>：<code>g:/マイドライブ/studio/GPS/data/road_guide.html</code>（ローカル限定。HAS素材公開不可）</li>
+</ul>
+<h2>1. アルゴリズム概要</h2>
+<p>「<strong>四半分単位ハイブリッド</strong>」方式。各セルの4四半分(NW/NE/SW/SE)について隣接3マス（縦カーディナル / 横カーディナル / 斜め）を見て、3パターンに分類して該当ピースを貼る。</p>
+<p><strong>殿ルール</strong>：「えぐれている角にはminitile適用、飛び出ている角には専用タイル」</p>
+<h2>2. 四半分の判定条件</h2>
+<p>各セルの道判定後、4四半分について以下のいずれかを選択：</p>
+<table>
+<thead>
+<tr>
+<th>パターン</th>
+<th>条件</th>
+<th>ソースタイル</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>IN（凹角）</strong></td>
+<td>縦カーディナル＝道、横カーディナル＝道、斜め＝陸</td>
+<td>十字 (0,1) の該当四半分</td>
+<td>えぐれた内側カーブ</td>
+</tr>
+<tr>
+<td><strong>FULL（完全埋め）</strong></td>
+<td>縦カーディナル＝道、横カーディナル＝道、斜め＝道</td>
+<td>完全埋め (6,1) の該当四半分</td>
+<td>面状の太道内部</td>
+</tr>
+<tr>
+<td><strong>凸角・縁・キャップ</strong></td>
+<td>上記以外（飛び出てる）</td>
+<td>bitmask専用タイルの該当四半分</td>
+<td>専用タイル本来のデザインを尊重</td>
+</tr>
+</tbody>
+</table>
+<p>「縦カーディナル」「横カーディナル」は四半分位置から見て：<br>
+- NW四半分 → 縦＝N隣接、横＝W隣接、斜め＝NW隣接<br>
+- NE四半分 → 縦＝N、横＝E、斜め＝NE<br>
+- SW四半分 → 縦＝S、横＝W、斜め＝SW<br>
+- SE四半分 → 縦＝S、横＝E、斜め＝SE</p>
+<h2>3. bitmask 専用タイル一覧</h2>
+<p>bitmask = <code>N=8 | E=4 | S=2 | W=1</code>（隣接道の4方向）。砂スタイル基準座標。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">mask</th>
+<th>接続</th>
+<th>形状</th>
+<th>砂スタイル座標</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0</td>
+<td>----</td>
+<td>孤立</td>
+<td>(0, 4)</td>
+</tr>
+<tr>
+<td style="text-align: right;">1</td>
+<td>---W</td>
+<td>横右端</td>
+<td>(4, 0)</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>--S-</td>
+<td>縦上端</td>
+<td>(1, 1)</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>--SW</td>
+<td>L字（南西開き）</td>
+<td>(7, 0)</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td>-E--</td>
+<td>横左端</td>
+<td>(2, 0)</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td>-E-W</td>
+<td>横直線</td>
+<td>(3, 0)</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td>-ES-</td>
+<td>L字（南東開き）</td>
+<td>(5, 0)</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td>-ESW</td>
+<td>T字（下向き）</td>
+<td>(6, 0)</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td>N---</td>
+<td>縦下端</td>
+<td>(1, 3)</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td>N--W</td>
+<td>L字（北西開き）</td>
+<td>(7, 2)</td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td>N-S-</td>
+<td>縦直線</td>
+<td>(1, 2)</td>
+</tr>
+<tr>
+<td style="text-align: right;">11</td>
+<td>N-SW</td>
+<td>T字（左向き）</td>
+<td>(7, 1)</td>
+</tr>
+<tr>
+<td style="text-align: right;">12</td>
+<td>NE--</td>
+<td>L字（北東開き）</td>
+<td>(5, 2)</td>
+</tr>
+<tr>
+<td style="text-align: right;">13</td>
+<td>NE-W</td>
+<td>T字（上向き）</td>
+<td>(2, 1)</td>
+</tr>
+<tr>
+<td style="text-align: right;">14</td>
+<td>NES-</td>
+<td>T字（右向き）</td>
+<td>(5, 1)</td>
+</tr>
+<tr>
+<td style="text-align: right;">15</td>
+<td>NESW</td>
+<td>十字</td>
+<td>(0, 1)</td>
+</tr>
+</tbody>
+</table>
+<p>L字4種(3, 6, 9, 12) は (7,0) / (5,0) / (7,2) / (5,2) を採用。<strong>殿指定の大型・凸角強デザイン</strong>。同じmaskを持つ小型バリエーション(3,1)(2,3)(4,2)(3,2)等も砂エリア内に存在するが用途未確定（細い装飾道用と推定）。</p>
+<h2>4. スタイルオフセット</h2>
+<p>砂スタイルのタイル座標に以下のオフセットを足すと他スタイルになる：</p>
+<table>
+<thead>
+<tr>
+<th>スタイル</th>
+<th>オフセット (x, y)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>砂（Sand）</td>
+<td>(0, 0)</td>
+</tr>
+<tr>
+<td>土（Dirt）</td>
+<td>(8, 0)</td>
+</tr>
+<tr>
+<td>石畳（Cobblestone）</td>
+<td>(0, 5)</td>
+</tr>
+<tr>
+<td>レンガ（Brick）</td>
+<td>(8, 5)</td>
+</tr>
+</tbody>
+</table>
+<h2>5. 動作確認済みパターン</h2>
+<p><code>tools/road_explainer.py</code> のサンプルグリッドで確認：</p>
+<ul>
+<li>直線道路（横）</li>
+<li>L字カーブ</li>
+<li>T字路</li>
+<li>十字路</li>
+<li>幅広十字路（2タイル幅）</li>
+<li>迂回路（S字蛇行）</li>
+</ul>
+<p>すべて4スタイル × 上記パターンで成立。</p>
+<h2>6. 既知の制約・将来課題</h2>
+<h3>斜めタイル未対応</h3>
+<p>砂エリア内の (2,3) (3,3) (2,4) (3,4) は <strong>菱形ダイヤ道の4分割</strong>（2×2配置で菱形を形成）：</p>
+<table>
+<thead>
+<tr>
+<th>座標</th>
+<th>道のある四半分位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(2,3)</td>
+<td>SE（右下三角）</td>
+</tr>
+<tr>
+<td>(3,3)</td>
+<td>SW（左下三角）</td>
+</tr>
+<tr>
+<td>(2,4)</td>
+<td>NE（右上三角）</td>
+</tr>
+<tr>
+<td>(3,4)</td>
+<td>NW（左上三角）</td>
+</tr>
+</tbody>
+</table>
+<p>これらは「太い斜め道（NW-SE方向）」用の素材で、(6,1) コアと組み合わせると殿の意図する太い斜め道を構成できる（途中まで実装したが、通常パターンに副作用が出たため一旦撤回）。</p>
+<p>将来再実装する場合の方針メモ：<br>
+- グリッド検出：mask=12 (NE) で NW対角に道があるセル → (6,1) コアとして上書き<br>
+- 検出セルの W位置に (2,4) を補完上書き<br>
+- mask=3 (SW) で SE対角に道があるセル → (3,3) NE三角で上書き<br>
+- 通常パターンと競合しないように検出条件を慎重に設計する必要あり</p>
+<h3>橋</h3>
+<p>(12,10)-(15,10) の橋4種は別概念。本仕様の対象外。</p>
+<h2>7. 関連ファイル</h2>
+<ul>
+<li>実装：<code>tools/road_explainer.py</code></li>
+<li>テストレンダラ：<code>tools/road_test_render.py</code></li>
+<li>bitmask分析ツール：<code>tools/road_bitmask_analyze.py</code></li>
+<li>FULLタイル候補確認：<code>tools/road_full_candidates.py</code></li>
+<li>L字バリエーション確認：<code>tools/road_lcorner_compare.py</code></li>
+<li>HTML出力：<code>g:/マイドライブ/studio/GPS/data/road_guide.html</code>（ローカル限定）</li>
+</ul>
+</body>
+</html>
